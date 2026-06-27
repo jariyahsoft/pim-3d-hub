@@ -1,0 +1,99 @@
+{
+  "project": "3D Print Marketplace Thailand",
+  "generatedAt": "2026-06-27",
+  "sources": [
+    "3d-print-marketplace-SRS-firebase-portable-v1.md",
+    "00_create_init_ai_file(2).md"
+  ],
+  "files": [
+    {
+      "file": "README.md",
+      "lines": 227,
+      "bytes": 11157
+    },
+    {
+      "file": ".gitignore",
+      "lines": 128,
+      "bytes": 1551
+    },
+    {
+      "file": "docs/design/00-project-overview.md",
+      "lines": 239,
+      "bytes": 12051
+    },
+    {
+      "file": "docs/design/01-architecture.md",
+      "lines": 394,
+      "bytes": 10826
+    },
+    {
+      "file": "docs/design/02-coding-rules.md",
+      "lines": 353,
+      "bytes": 9443
+    },
+    {
+      "file": "docs/design/03-database-design.md",
+      "lines": 446,
+      "bytes": 12288
+    },
+    {
+      "file": "docs/design/04-api-standard.md",
+      "lines": 361,
+      "bytes": 7428
+    },
+    {
+      "file": "docs/design/05-decisions.md",
+      "lines": 240,
+      "bytes": 4746
+    },
+    {
+      "file": "docs/design/06-backlog.md",
+      "lines": 755,
+      "bytes": 16637
+    },
+    {
+      "file": "docs/design/07-security-rules.md",
+      "lines": 309,
+      "bytes": 7964
+    },
+    {
+      "file": "docs/design/08-ui-guide.md",
+      "lines": 365,
+      "bytes": 7731
+    },
+    {
+      "file": "docs/design/09-testing-guide.md",
+      "lines": 306,
+      "bytes": 5786
+    },
+    {
+      "file": "docs/design/10-glossary.md",
+      "lines": 191,
+      "bytes": 7336
+    },
+    {
+      "file": "docs/design/11-tasks.md",
+      "lines": 306,
+      "bytes": 7494
+    },
+    {
+      "file": "docs/design/12-ui-image-prompts.md",
+      "lines": 366,
+      "bytes": 12910
+    }
+  ],
+  "assumptions": [
+    "Fresh repository; no existing files were supplied for preservation.",
+    "Monorepo and pnpm are proposed, not yet accepted.",
+    "Exact web/mobile frameworks and external vendors remain open decisions."
+  ],
+  "taskPrompts": {
+    "generatedAt": "2026-06-27",
+    "count": 66,
+    "index": "tasks/00_task_index.md",
+    "tierDistribution": {
+      "A": 36,
+      "B": 30
+    }
+  }
+}
