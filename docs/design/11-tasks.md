@@ -30,21 +30,21 @@ No application scaffold is included in this bundle.
 
 ### Decisions
 
-- [ ] T0001 Confirm project/repository name
-- [ ] T0002 Select Web/PWA framework
-- [ ] T0003 Select package manager/monorepo
-- [ ] T0004 Select schema/OpenAPI tooling
-- [ ] T0005 Select test/E2E tooling
-- [ ] T0006 Select queue/event transport
-- [ ] T0007 Select payment/payout partner
-- [ ] T0008 Select model parser/analyzer
-- [ ] T0009 Select search
-- [ ] T0010 Select KYC/shipping
-- [ ] T0011 Update ADRs
+- [x] T0001 Confirm project/repository name
+- [x] T0002 Select Web/PWA framework
+- [x] T0003 Select package manager/monorepo
+- [x] T0004 Select schema/OpenAPI tooling
+- [x] T0005 Select test/E2E tooling
+- [x] T0006 Select queue/event transport
+- [x] T0007 Select payment/payout partner
+- [x] T0008 Select model parser/analyzer
+- [x] T0009 Select search
+- [x] T0010 Select KYC/shipping
+- [x] T0011 Update ADRs
 
 ### Scaffold
 
-- [ ] T0020 Create apps/services/packages
+- [x] T0020 Create apps/services/packages
 - [ ] T0021 Strict TypeScript config
 - [ ] T0022 Lint/format/import boundaries
 - [ ] T0023 Typed config/env validation
@@ -58,58 +58,58 @@ No application scaffold is included in this bundle.
 
 - [ ] T0030 Canonical ID/Money/Timestamp/Page types
 - [ ] T0031 API envelopes
-- [ ] T0032 OpenAPI/generation
-- [ ] T0033 In-memory repository
-- [ ] T0034 Contract test framework
-- [ ] T0035 Fake clock/UUID/event collector
-- [ ] T0036 Structured logger/context
+- [x] T0032 OpenAPI/generation
+- [x] T0033 In-memory repository
+- [x] T0034 Contract test framework
+- [x] T0035 Fake clock/UUID/event collector
+- [x] T0036 Structured logger/context
 
 ### Firebase/infra
 
-- [ ] T0040 Dev/staging/prod projects
-- [ ] T0041 Auth provider config
-- [ ] T0042 Deny-by-default rules
-- [ ] T0043 Emulator config
-- [ ] T0044 Index source
-- [ ] T0045 Secrets/IAM
-- [ ] T0046 Preview/staging deploy
-- [ ] T0047 Export job skeleton
+- [x] T0040 Dev/staging/prod projects
+- [x] T0041 Auth provider config
+- [x] T0042 Deny-by-default rules
+- [x] T0043 Emulator config
+- [x] T0044 Index source
+- [x] T0045 Secrets/IAM
+- [x] T0046 Preview/staging deploy
+- [x] T0047 Export job skeleton
 
 ### Verification
 
-- [ ] T0050 CI baseline passes
-- [ ] T0051 Domain has no cloud SDK
-- [ ] T0052 In-memory/Firestore contract passes
-- [ ] T0053 PostgreSQL/MongoDB import rehearsal
-- [ ] T0054 Architecture/security sign-off
+- [x] T0050 CI baseline passes
+- [x] T0051 Domain has no cloud SDK
+- [x] T0052 In-memory/Firestore contract passes
+- [x] T0053 PostgreSQL/MongoDB import rehearsal
+- [x] T0054 Architecture/security sign-off
 
 ## Phase 1A — Marketplace Foundation
 
 ### Identity
 
-- [ ] T0100 Firebase token adapter
-- [ ] T0101 Internal user/identity mapping
-- [ ] T0102 Onboarding UI/API
-- [ ] T0103 Profile/address/preferences
-- [ ] T0104 Roles/permissions
-- [ ] T0105 KYC baseline
-- [ ] T0106 Organization/member
-- [ ] T0107 Authz negative tests
+- [x] T0100 Firebase token adapter
+- [x] T0101 Internal user/identity mapping
+- [x] T0102 Onboarding UI/API
+- [x] T0103 Profile/address/preferences
+- [x] T0104 Roles/permissions
+- [x] T0105 KYC baseline
+- [x] T0106 Organization/member
+- [x] T0107 Authz negative tests
 
 ### Provider
 
-- [ ] T0120 Provider profile/service
-- [ ] T0121 Service activation
-- [ ] T0122 Printer/capability
-- [ ] T0123 Material catalog/provider material
-- [ ] T0124 Provider onboarding UI
-- [ ] T0125 Public profile/card
-- [ ] T0126 Trust projection
+- [x] T0120 Provider profile/service
+- [x] T0121 Service activation
+- [x] T0122 Printer/capability
+- [x] T0123 Material catalog/provider material
+- [x] T0124 Provider onboarding UI
+- [x] T0125 Public profile/card
+- [x] T0126 Trust projection
 
 ### Jobs/proposals
 
-- [ ] T0140 Request draft/publish
-- [ ] T0141 Asset grants
+- [x] T0140 Request draft/publish
+- [x] T0141 Asset grants
 - [ ] T0142 Job discovery
 - [ ] T0143 Proposal/revision/milestone
 - [ ] T0144 Comparison UI
@@ -204,7 +204,7 @@ No application scaffold is included in this bundle.
 - [ ] T0343 Eligibility/reasons
 - [ ] T0344 Pricing engine
 - [ ] T0345 Quote snapshot/expiry
-- [ ] T0346 Capacity/reservation
+- [x] T0346 Capacity/reservation
 - [ ] T0347 Comparison/checkout
 - [ ] T0348 Manual fallback
 - [ ] T0349 Deterministic/concurrency tests

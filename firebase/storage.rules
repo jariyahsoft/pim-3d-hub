@@ -1,0 +1,18 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /public-content/{assetId}/{fileName=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /private/{assetId}/{fileName=**} {
+      allow read, write: if false;
+    }
+
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

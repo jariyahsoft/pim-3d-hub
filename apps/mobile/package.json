@@ -1,0 +1,25 @@
+{
+  "name": "@pim/mobile",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Placeholder until the Phase 2 mobile framework is selected",
+  "dependencies": {
+    "@pim/config": "workspace:*"
+  },
+  "scripts": {
+    "build": "node ../../tools/run-workspace-task.mjs build",
+    "dev": "node ../../tools/run-workspace-task.mjs dev",
+    "emulators": "node ../../tools/run-workspace-task.mjs emulators",
+    "test": "node ../../tools/run-workspace-task.mjs test",
+    "test:contract": "node ../../tools/run-workspace-task.mjs test:contract",
+    "test:integration": "node ../../tools/run-workspace-task.mjs test:integration"
+  },
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  }
+}

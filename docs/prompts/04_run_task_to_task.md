@@ -5,7 +5,7 @@
 รองรับการสั่งงานลักษณะนี้:
 
 ```text
-run prompt docs\prompts\04_run_task_to_task.md task 01 - 05 TELEGRAM_BOT_TOKEN="xxxxxxx" TELEGRAM_CHAT_ID="xxxxx"
+run prompt docs\prompts\04_run_task_to_task.md, project: Mo-Nut, task 01 - 05 TELEGRAM_BOT_TOKEN="xxxxxxx" TELEGRAM_CHAT_ID="xxxxx"
 ```
 
 ความหมายคือให้ main agent ทำงานเฉพาะ task หมายเลข `01` ถึง `05` แบบรวมปลายทั้งสองฝั่ง และยังต้องเคารพ dependency ภายในช่วงนั้นเสมอ
@@ -142,7 +142,7 @@ Send the start notification before beginning the task attempt. Send the terminal
 
 Use concise plain-text messages:
 
-[Mo-nut Task Runner]
+[<project> Task Runner]
 Status: 🚀STARTED | ✅COMPLETED | ✳️ALREADY COMPLETE | ⛔️BLOCKED | ❌ERROR
 Task: <task number> - <task title>
 Agent: main

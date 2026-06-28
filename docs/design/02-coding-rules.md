@@ -109,6 +109,13 @@ export type OrderStatus =
 - status code and response envelope
 - ไม่มี business decisions
 
+## Approved workspace dependency direction
+
+- `packages/domain` and `packages/application` may consume only public package roots and internal code within their own package tree.
+- `packages/domain` and `packages/application` must not import Firebase, Google Cloud, HTTP frameworks, UI packages, or adapter internals.
+- `apps/*` and `services/*` may import only public package roots such as `@pim/domain` or `@pim/contracts`, never `*/src/*`, `*/internal/*`, or private adapter modules.
+- Shared packages expose a single public entry point via `package.json` `exports`; subpath imports are treated as private implementation details.
+
 ## Naming
 
 - folders/files: `kebab-case`
@@ -205,6 +212,9 @@ Firestore mapper เป็นจุดเดียวที่แปลง Fires
 
 ห้าม log password, token, secret, PAN/CVV, KYC document, signed URL, private file content หรือ PII ที่ไม่ mask
 
+- Every request/job log must carry `requestId` and `traceId` plus `module`, `action`, optional `provider`, `durationMs`, and a safe outcome code.
+- Propagate request context through application use cases and outbox metadata rather than reconstructing correlation IDs in adapters.
+
 ## Configuration
 
 - อ่าน environment ใน composition root
@@ -233,6 +243,13 @@ Client Firebase SDK ใช้เฉพาะ:
 - App Check
 - FCM/PWA push token
 
+Approved authentication surface:
+
+- email/password
+- Google sign-in
+- Apple sign-in for mobile
+- phone when platform policy allows it
+
 Client ห้าม:
 
 - query Firestore business collections
@@ -246,6 +263,7 @@ Backend:
 - Admin SDK อยู่ใน adapter
 - rulesเป็น defense in depth
 - emulator rules tests required
+- production config must reject local-emulator aliases and placeholder Firebase credentials
 
 ## Money and pricing
 

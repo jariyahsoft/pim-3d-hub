@@ -115,6 +115,11 @@ Constraints:
 | `pricing_profiles` | provider/scope, versionNo, formula inputs, status |
 | `capacity_slots` | provider/printer, period, total/reserved units |
 
+Catalog seed rule:
+
+- printer technology, material, color, and quality codes are versioned in the domain seed set and keep display labels out of Domain
+- adding a new code requires a reviewed PR that updates the seed version and the relevant unit tests
+
 Service type:
 
 - `DESIGN_ONLY`

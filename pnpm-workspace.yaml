@@ -1,0 +1,13 @@
+packages:
+  - "apps/*"
+  - "services/*"
+  - "packages/*"
+allowBuilds:
+  '@firebase/util': true
+  esbuild: true
+  protobufjs: true
+  re2: true
+  sharp: set this to true or false
+minimumReleaseAgeExclude:
+  - eslint@10.6.0
+  - prettier@3.8.5

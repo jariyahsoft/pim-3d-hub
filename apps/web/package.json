@@ -1,0 +1,34 @@
+{
+  "name": "@pim/web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@pim/application": "workspace:*",
+    "@pim/config": "workspace:*",
+    "@pim/domain": "workspace:*",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0"
+  },
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "emulators": "node ../../tools/run-workspace-task.mjs emulators",
+    "start": "next start",
+    "test": "vitest run --config vitest.config.mjs",
+    "test:contract": "node ../../tools/run-workspace-task.mjs test:contract",
+    "test:integration": "node ../../tools/run-workspace-task.mjs test:integration"
+  },
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  }
+}

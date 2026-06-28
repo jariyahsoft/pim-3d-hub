@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Business data stays behind the backend API unless a later ADR and
+    // emulator-backed rules test introduce a narrowly-scoped exception.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

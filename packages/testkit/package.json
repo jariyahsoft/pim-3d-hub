@@ -1,0 +1,27 @@
+{
+  "name": "@pim/testkit",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@pim/application": "workspace:*",
+    "@pim/contracts": "workspace:*",
+    "@pim/domain": "workspace:*",
+    "zod": "^4.4.3"
+  },
+  "scripts": {
+    "build": "node ../../tools/run-workspace-task.mjs build",
+    "dev": "node ../../tools/run-workspace-task.mjs dev",
+    "emulators": "node ../../tools/run-workspace-task.mjs emulators",
+    "test": "node ../../tools/run-workspace-task.mjs test",
+    "test:contract": "corepack pnpm exec vitest run src/provider-profile-repository-contract.test.ts src/provider-service-repository-contract.test.ts src/repository-fakes.test.ts",
+    "test:integration": "node ../../tools/run-workspace-task.mjs test:integration"
+  },
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  }
+}

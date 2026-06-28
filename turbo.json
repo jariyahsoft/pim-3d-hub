@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "tsconfig.base.json",
+    "tsconfig.json",
+    "eslint.config.cjs",
+    ".prettierrc.json"
+  ],
+  "tasks": {
+    "build": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false
+    },
+    "emulators": {
+      "cache": false
+    },
+    "test": {
+      "cache": false
+    },
+    "test:contract": {
+      "cache": false
+    },
+    "test:integration": {
+      "cache": false
+    }
+  }
+}

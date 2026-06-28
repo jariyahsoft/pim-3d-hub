@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "demo-pim-3d-hub-local",
+    "development": "pim-3d-hub-development",
+    "local": "demo-pim-3d-hub-local",
+    "production": "pim-3d-hub-production",
+    "staging": "pim-3d-hub-staging"
+  }
+}

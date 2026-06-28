@@ -1,0 +1,27 @@
+{
+  "name": "@pim/infrastructure",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@google-cloud/firestore": "^8.1.0",
+    "@pim/application": "workspace:*",
+    "@pim/domain": "workspace:*",
+    "firebase-admin": "^13.6.0"
+  },
+  "scripts": {
+    "build": "node ../../tools/run-workspace-task.mjs build",
+    "dev": "node ../../tools/run-workspace-task.mjs dev",
+    "emulators": "node ../../tools/run-workspace-task.mjs emulators",
+    "test": "node ../../tools/run-workspace-task.mjs test",
+    "test:contract": "node ../../tools/run-workspace-task.mjs test:contract",
+    "test:integration": "node ../../tools/run-workspace-task.mjs test:integration"
+  },
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  }
+}

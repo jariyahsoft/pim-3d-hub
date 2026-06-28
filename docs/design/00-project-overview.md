@@ -9,6 +9,14 @@
 
 **3D Print Marketplace Thailand**
 
+## Repository identity
+
+| Item | Value |
+|---|---|
+| Product name | `3D Print Marketplace Thailand` |
+| Repository slug | `pim-3d-hub` |
+| Workspace package scope | `@pim/*` |
+
 ## Vision
 
 สร้างศูนย์กลางด้าน 3D Printing ของประเทศไทยที่ทำให้ผู้ซื้อสามารถเปลี่ยนไอเดีย รูปภาพ แบบร่าง หรือไฟล์ 3D ให้เป็นชิ้นงานจริงได้ง่าย ขณะเดียวกันช่วยให้นักออกแบบ เจ้าของเครื่อง ร้านพิมพ์ และ Print Farm สร้างรายได้จากความเชี่ยวชาญและกำลังการผลิตที่มีอยู่
@@ -161,6 +169,23 @@ flowchart LR
     P2A --> P2B[Phase 2B Advanced Platform]
 ```
 
+## Foundation implementation baseline
+
+| Area | Baseline | Status |
+|---|---|---|
+| Web/PWA | `Next.js` App Router + TypeScript/React | Accepted for Phase 1 |
+| Package manager/monorepo | `pnpm` workspaces + `turbo` | Accepted |
+| API contract | `zod` boundary schemas + OpenAPI 3.1 artifact + generated typed clients | Accepted |
+| OpenAPI governance | `@redocly/cli` lint/bundle + breaking-change checks | Accepted |
+| Test stack | `vitest` + `@playwright/test` | Accepted |
+| Async workers | Transactional Outbox + `QueuePort` + Google Cloud Tasks HTTP dispatch | Accepted for Phase 1 |
+| Search | Firestore-backed projection/read models behind `SearchPort` | Accepted for Phase 1 |
+| Realtime UX | REST source of truth + polling baseline + SSE where needed | Accepted for Phase 1 |
+| Payment/payout | `PaymentGatewayPort`; partner/vendor still open | Open vendor decision |
+| KYC/shipping | Manual-first baseline behind `KycPort` and `ShippingPort`; vendors still open | Accepted baseline |
+| Model parsing/analysis | Scope limited to `STL`, `OBJ`, `3MF`; exact libraries still open | Open library decision |
+| Mobile app | Flutter vs React Native | Open until Task 59 |
+
 ## Success metrics
 
 ### Marketplace liquidity
@@ -224,16 +249,20 @@ flowchart LR
 - งานวิเคราะห์ไฟล์ทำผ่าน background job
 - Payment/escrow-like flow ทำผ่าน partner ที่ได้รับอนุญาต
 - Phase 1 เริ่มจาก FDM/Resin และ file formats ที่ทีม validate ได้
+- ทีม foundation ใช้ `pnpm`, `turbo`, `Next.js`, `vitest` และ `@playwright/test` เป็น baseline เดียวกันทั้ง repo
+- Search, KYC, shipping และ payment integration ต้องผ่าน port/adapter แม้รุ่นแรกจะเริ่มจาก manual-first workflow บางส่วน
 
 ## Open questions
 
 1. Marketplace เปิดพร้อมกันทั่วประเทศหรือเริ่มบางจังหวัด?
 2. เกณฑ์ KYC สำหรับ provider/product seller แต่ละระดับคืออะไร?
-3. ใช้ payment partner และ payout model ใด?
-4. งานใดอนุญาต COD หรือไม่อนุญาตทั้งหมด?
-5. Instant quote รองรับ printer/material combination ใดในรุ่นแรก?
-6. Platform fee และ cancellation/refund policy เป็นเท่าใด?
-7. ใช้ human moderation, automated moderation หรือ hybrid?
-8. Product marketplace จะรองรับ cart หลายร้านใน MVP หรือ order ต่อร้าน?
-9. ต้องมีใบกำกับภาษีกลางหรือให้ผู้ขายเป็นผู้ออก?
-10. เกณฑ์ Quality Verified และ Official Store คืออะไร?
+3. ใช้ payment partner และ payout model ใดหลังตรวจ legal/commercial constraints แล้ว?
+4. เลือก mobile framework เป็น Flutter หรือ React Native หลัง spike ใน Task 59?
+5. เลือก parser/viewer/analyzer library ใดสำหรับ `STL`/`OBJ`/`3MF` หลัง Task 45–46?
+6. งานใดอนุญาต COD หรือไม่อนุญาตทั้งหมด?
+7. Instant quote รองรับ printer/material combination ใดในรุ่นแรก?
+8. Platform fee และ cancellation/refund policy เป็นเท่าใด?
+9. ใช้ human moderation, automated moderation หรือ hybrid?
+10. Product marketplace จะรองรับ cart หลายร้านใน MVP หรือ order ต่อร้าน?
+11. ต้องมีใบกำกับภาษีกลางหรือให้ผู้ขายเป็นผู้ออก?
+12. เกณฑ์ Quality Verified และ Official Store คืออะไร?

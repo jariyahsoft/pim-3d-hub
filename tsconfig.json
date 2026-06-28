@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "apps/**/*.d.ts",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "packages/**/*.d.ts",
+    "services/**/*.ts",
+    "services/**/*.tsx",
+    "services/**/*.d.ts"
+  ],
+  "exclude": ["**/dist/**", "**/node_modules/**", "**/__fixtures__/**"]
+}
