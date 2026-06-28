@@ -10,18 +10,18 @@ export {
   listPermissionsForOrganizationMemberRole,
   listPermissionsForRole,
   roleRequiresKyc,
-} from './authorization.js'
+} from './authorization.js';
 export type {
   AuthorizationActor,
   AuthorizationDecision,
   AuthorizationDenyReason,
   PermissionCode,
-} from './authorization.js'
+} from './authorization.js';
 export {
   assertCapacityVersionConflict,
   createCapacityService,
   CapacityNotFoundError,
-} from './capacity.js'
+} from './capacity.js';
 export type {
   CapacityClosureDto,
   CapacityExpiryWorkerResult,
@@ -37,42 +37,44 @@ export type {
   ReopenCapacitySlotCommand,
   ReserveCapacityCommand,
   UpdateCapacitySlotCommand,
-} from './capacity.js'
-export { createConversationService } from './conversation.js'
+} from './capacity.js';
+export { createConversationService } from './conversation.js';
 export type {
   ConversationDto,
   ConversationListRequest,
   ConversationService,
   MessageDto,
   MessageListRequest,
-} from './conversation.js'
-export { createNotificationService } from './notification.js'
+} from './conversation.js';
+export { createNotificationService } from './notification.js';
 export type {
   NotificationDto,
   NotificationPort,
   NotificationService,
-} from './notification.js'
+} from './notification.js';
 export {
   createReviewService,
   ReviewEligibilityError,
   ReviewNotFoundError,
-} from './review.js'
+} from './review.js';
 export type {
   RatingProjectionDto,
   ReviewDto,
   ReviewService,
-} from './review.js'
+} from './review.js';
 export {
   createModerationDisputeService,
   DisputeEligibilityError,
   DisputeNotFoundError,
-} from './moderation-dispute.js'
+} from './moderation-dispute.js';
 export type {
   DisputeDto,
   ModerationCaseDto,
   ModerationDisputeService,
   ReportDto,
-} from './moderation-dispute.js'
+} from './moderation-dispute.js';
+export { createAdminAuditService } from './admin-audit.js';
+export type { AdminAuditService, AuditLogDto } from './admin-audit.js';
 export {
   createApiRuntime,
   createOutboxMetadata,
@@ -83,7 +85,7 @@ export {
   restoreRequestContextFromOutbox,
   runSampleApiRequest,
   runSampleWorkerEvent,
-} from './observability.js'
+} from './observability.js';
 export type {
   AuditEvent,
   AuditSinkPort,
@@ -94,7 +96,7 @@ export type {
   ResolveAuthenticatedUserUseCase,
   SafeIdentityClaimValue,
   UuidGeneratorPort as IdentityUuidGeneratorPort,
-} from './identity.js'
+} from './identity.js';
 export type {
   CreateFileAssetAccessGrantCommand,
   FileAssetAccessGrantDto,
@@ -106,43 +108,46 @@ export type {
   RegisterFileAssetCommand,
   RequestFileAssetDownloadAccessCommand,
   RevokeFileAssetAccessGrantCommand,
-} from './file-access.js'
+} from './file-access.js';
 export {
   AuthenticationRequiredError,
   AuthorizationDeniedError,
   createResolveAuthenticatedUserUseCase,
-} from './identity.js'
-export { createExportRunSkeleton, runSampleExportWorker } from './export-run.js'
+} from './identity.js';
+export {
+  createExportRunSkeleton,
+  runSampleExportWorker,
+} from './export-run.js';
 export {
   assertFileAccessVersionConflict,
   createFileAccessService,
   FileAccessNotFoundError,
   InvalidFileAccessStateError,
-} from './file-access.js'
+} from './file-access.js';
 export {
   createJobDiscoveryService,
   JobDiscoveryNotFoundError,
-} from './job-discovery.js'
+} from './job-discovery.js';
 export type {
   DiscoverJobsQuery,
   GetJobDetailQuery,
   JobDiscoveryItemDto,
   JobDiscoveryService,
   JobDiscoveryServicePorts,
-} from './job-discovery.js'
+} from './job-discovery.js';
 export {
   assertOrderVersionConflict,
   createOrderService,
   InvalidOrderStateError,
   OrderNotFoundError,
-} from './order.js'
+} from './order.js';
 export type {
   CreateOrderFromProposalCommand,
   OrderDto,
   OrderService,
   OrderServicePorts,
   OrderValidationError,
-} from './order.js'
+} from './order.js';
 export {
   assertProfileVersionConflict,
   createUserProfileService,
@@ -151,18 +156,18 @@ export {
   normalizeCountryCode,
   normalizeLocaleCode,
   normalizePhoneE164,
-} from './profile.js'
+} from './profile.js';
 export {
   assertProviderVersionConflict,
   createProviderServiceManager,
   ProviderNotFoundError,
-} from './provider.js'
+} from './provider.js';
 export {
   assertServiceRequestVersionConflict,
   createServiceRequestService,
   InvalidServiceRequestStateError,
   ServiceRequestNotFoundError,
-} from './service-request.js'
+} from './service-request.js';
 export type {
   CreateProviderProfileCommand,
   CreateProviderServiceCommand,
@@ -179,7 +184,7 @@ export type {
   RebuildProviderTrustProjectionCommand,
   UpdateProviderProfileCommand,
   UpdateProviderServiceCommand,
-} from './provider.js'
+} from './provider.js';
 export type {
   CloseServiceRequestCommand,
   CreateServiceRequestDraftCommand,
@@ -191,12 +196,12 @@ export type {
   ServiceRequestStatusHistoryDto,
   ServiceRequestValidationError,
   UpdateServiceRequestDraftCommand,
-} from './service-request.js'
+} from './service-request.js';
 export {
   assertPrinterVersionConflict,
   createPrinterServiceManager,
   PrinterNotFoundError,
-} from './printer.js'
+} from './printer.js';
 export type {
   BuildVolumeDto,
   CreatePrinterCapabilityCommand,
@@ -211,13 +216,13 @@ export type {
   UpdatePrinterCapabilityCommand,
   UpdatePrinterCommand,
   UpdateProviderMaterialCommand,
-} from './printer.js'
+} from './printer.js';
 export {
   assertProposalVersionConflict,
   createProposalService,
   InvalidProposalStateError,
   ProposalNotFoundError,
-} from './proposal.js'
+} from './proposal.js';
 export type {
   ProposalDto,
   ProposalLineItemDto,
@@ -228,12 +233,12 @@ export type {
   ReviseProposalCommand,
   SubmitProposalCommand,
   WithdrawProposalCommand,
-} from './proposal.js'
+} from './proposal.js';
 export {
   assertTrustVersionConflict,
   createTrustService,
   TrustNotFoundError,
-} from './trust.js'
+} from './trust.js';
 export type {
   AcceptOrganizationInvitationCommand,
   CreateOrganizationCommand,
@@ -250,7 +255,7 @@ export type {
   UpdateOrganizationMembershipCommand,
   VerificationCaseDto,
   VerificationDocumentDto,
-} from './trust.js'
+} from './trust.js';
 export type {
   LogSink,
   OutboxMetadata,
@@ -260,7 +265,7 @@ export type {
   StructuredLogSeverity,
   StructuredLogger,
   UnexpectedErrorResult,
-} from './observability.js'
+} from './observability.js';
 export type {
   CompleteOnboardingInput,
   CreateUserAddressCommand,
@@ -274,7 +279,7 @@ export type {
   UpdateUserProfileInput,
   UserAddressDto,
   UserProfileService,
-} from './profile.js'
+} from './profile.js';
 export type {
   ExportEnvironment,
   ExportFailure,
@@ -282,4 +287,4 @@ export type {
   ExportRunRecord,
   ExportRunStatus,
   ExportWorkerResult,
-} from './export-run.js'
+} from './export-run.js';
