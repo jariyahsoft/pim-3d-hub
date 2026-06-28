@@ -53,6 +53,16 @@ export type {
   NotificationService,
 } from './notification.js'
 export {
+  createReviewService,
+  ReviewEligibilityError,
+  ReviewNotFoundError,
+} from './review.js'
+export type {
+  RatingProjectionDto,
+  ReviewDto,
+  ReviewService,
+} from './review.js'
+export {
   createApiRuntime,
   createOutboxMetadata,
   createRequestContext,

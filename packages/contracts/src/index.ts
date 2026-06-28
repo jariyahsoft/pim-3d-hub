@@ -73,6 +73,26 @@ export type {
   UpdatePreferencesRequest,
 } from './notification.js'
 export {
+  addSellerResponseRequestSchema,
+  createReviewRequestSchema,
+  listReviewsQuerySchema,
+  ratingProjectionResponseSchema,
+  ratingValueSchema,
+  reviewRatingDimensionSchema,
+  reviewResponseSchema,
+  reviewStatusSchema,
+  reviewSubjectTypeSchema,
+  updateReviewRequestSchema,
+} from './review.js'
+export type {
+  AddSellerResponseRequest,
+  CreateReviewRequest,
+  ListReviewsQuery,
+  RatingProjectionResponse,
+  ReviewResponse,
+  UpdateReviewRequest,
+} from './review.js'
+export {
   createFileAssetAccessGrantRequestSchema,
   fileAssetAccessGrantResponseSchema,
   fileAssetAccessGrantSchema,
