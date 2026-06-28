@@ -124,6 +124,7 @@ export function parseUnknownEnumValue<const Allowed extends readonly [string, ..
   return createUnknownEnumValue(value)
 }
 
+export * from './audit.js'
 export * from './capacity.js'
 export * from './conversation.js'
 export * from './file.js'
