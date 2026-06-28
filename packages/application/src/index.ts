@@ -63,6 +63,17 @@ export type {
   ReviewService,
 } from './review.js'
 export {
+  createModerationDisputeService,
+  DisputeEligibilityError,
+  DisputeNotFoundError,
+} from './moderation-dispute.js'
+export type {
+  DisputeDto,
+  ModerationCaseDto,
+  ModerationDisputeService,
+  ReportDto,
+} from './moderation-dispute.js'
+export {
   createApiRuntime,
   createOutboxMetadata,
   createRequestContext,
