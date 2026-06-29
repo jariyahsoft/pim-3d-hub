@@ -160,3 +160,4 @@ export * from './slicer.js';
 export * from './social-interactions.js';
 export * from './verified-content.js';
 export * from './shipping.js';
+export * from './smart-matching.js';
