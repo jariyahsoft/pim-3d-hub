@@ -425,3 +425,22 @@ export type {
   RetryAnalysisCommand,
   SubmitForAnalysisCommand,
 } from './model-analysis.js';
+export {
+  createContentPostService,
+  PostAuthorMismatchError,
+  PostNotFoundError,
+  PostPrivateMediaBlockedError,
+  PostVersionConflictError,
+  PostVisibilityError,
+} from './content-post.js';
+export type {
+  ContentPostService,
+  ContentPostServicePorts,
+  CreatePostDraftCommand,
+  HidePostCommand,
+  PostDto,
+  PublishPostCommand,
+  RebuildFeedQuery,
+  RebuildFeedResult,
+  RemovePostCommand,
+} from './content-post.js';

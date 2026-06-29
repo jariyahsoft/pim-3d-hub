@@ -130,6 +130,7 @@ export function parseUnknownEnumValue<
 
 export * from './audit.js';
 export * from './capacity.js';
+export * from './content-post.js';
 export * from './conversation.js';
 export * from './file.js';
 export * from './file-analysis.js';

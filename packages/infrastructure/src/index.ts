@@ -5,6 +5,7 @@ export * from './firebase-identity-adapter.js';
 export * from './in-memory-audit-log-repository.js';
 export * from './in-memory-file-retention-and-scan-repositories.js';
 export * from './in-memory-file-upload-session-repository.js';
+export * from './in-memory-content-post-repository.js';
 export * from './in-memory-model-analysis-repositories.js';
 export * from './in-memory-pricing-profile-repository.js';
 export * from './in-memory-instant-quote-repository.js';
