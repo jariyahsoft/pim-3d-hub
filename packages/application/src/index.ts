@@ -240,6 +240,23 @@ export type {
   UpdateServiceRequestDraftCommand,
 } from './service-request.js';
 export {
+  assertPricingProfileVersionConflict,
+  createPricingProfileService,
+  PricingProfileNotFoundError,
+  PricingProfileStateError,
+  PricingProfileVersionConflictError,
+} from './pricing-profile.js';
+export type {
+  CalculatePricingCommand,
+  CreatePricingProfileCommand,
+  ListPricingProfilesQuery,
+  PricingProfileDto,
+  PricingProfileService,
+  PricingProfileServicePorts,
+  PublishPricingProfileCommand,
+  UpdatePricingProfileCommand,
+} from './pricing-profile.js';
+export {
   assertPrinterVersionConflict,
   createPrinterServiceManager,
   PrinterNotFoundError,

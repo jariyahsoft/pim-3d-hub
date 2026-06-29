@@ -522,3 +522,114 @@ Completed analysis state UI component covering all analysis lifecycle states and
 **Tasks Completed:** 2 of 2 (Tasks 46-47)
 **Total Lines:** 1,200+ lines
 **Test Coverage:** 36 tests passing (100%)
+
+---
+
+# Session 2026-06-29 (Task Range 48-50)
+
+## Task Range 48-50
+
+### Active range: `48` to `50`
+
+### Telegram: enabled from invocation
+
+---
+
+## Task 48: Pricing Formula Profiles and Calculator
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T02:55:00Z
+- **Recommended Model:** Tier A (Sonnet 4.6 / Flash 3.5 / GPT-5.5)
+
+### Implementation Summary
+
+Completed pricing formula definition with basis-point integer arithmetic, versioned pricing profile management with draft/active/retired lifecycle, and server-side pricing calculator.
+
+### Components Delivered
+
+1. **Domain** (`packages/domain/src/pricing-profile.ts` — 230 lines):
+   - `PricingFormulaConfiguration` type with 12 configurable fields in basis points
+   - `PricingProfileRecord` with scope (serviceId, printerId, materialCode), versionNo, statuses (DRAFT/ACTIVE/RETIRED)
+   - `PricingProfileRepository` interface with findActiveAtTimestamp, findLatestByProviderAndScope
+   - `calculatePrice()` pure function with 10-step formula precedence and round-half-up
+   - `applyBps()` utility for basis-point computation
+   - Standard line-item codes (MATERIAL, MACHINE, SETUP, SUPPORT, LABOR, RISK, RUSH, QUANTITY_DISCOUNT, SHIPPING, PLATFORM_FEE, TAX)
+
+2. **Application Service** (`packages/application/src/pricing-profile.ts` — 260 lines):
+   - `createDraft`: Creates draft profile with versionNo = 0
+   - `updateDraft`: Edits only DRAFT profiles; rejects ACTIVE/RETIRED
+   - `publish`: Sets ACTIVE status, retires previous scope version, assigns versionNo
+   - `calculatePrice`: Returns CalculatorResult with line items and totals
+   - `getById` / `list`: Query helpers
+   - DTO mapping and typed error classes
+
+3. **Infrastructure** (`packages/infrastructure/src/in-memory-pricing-profile-repository.ts` — 200 lines):
+   - InMemoryPricingProfileRepository with full CRUD, scope matching, cursor pagination
+   - JSON serialization for formula and scope fields
+   - Version conflict detection
+
+4. **Provider Calculator UI** (`apps/web/src/pricing-calculator-screen.tsx` — 270 lines):
+   - Profile status banner (DRAFT/ACTIVE/RETIRED) with Thai labels
+   - Input form for volume, estimated time, quantity, material, quality, color, support, rush
+   - Calculate button triggering server-style formula
+   - Result table with line items and total in THB locale
+   - Formula details toggle with full rate display
+   - ARIA labels, checkbox groups, accessible table markup
+   - Inline responsive CSS
+
+5. **Calculator Demo** (`apps/web/src/pricing-calculator-demo.ts` — 90 lines):
+   - Demo formula fixture, editor draft type, display/formatters
+   - Thai-language line-item label map
+
+### Test Coverage
+
+**Application tests** (`packages/application/src/pricing-profile.test.ts` — 20 tests):
+
+- Create draft with correct defaults
+- Update draft with version increment
+- Reject update of non-draft profiles
+- Publish with versionNo assignment
+- Automatic retirement of previous scope version
+- Reject publish of already-published profile
+- Get by ID and not-found error
+- Calculator: standard input produces correct line items
+- Calculator: minimum order enforcement
+- Calculator: rush multiplier applied correctly
+- Calculator: quantity discount for multi-item orders
+- Calculator: support charge only when hasSupport is true
+- Calculator: deterministic output for same input
+- Calculator: large quantity without overflow
+- Calculator: zero volume falls back to minimum order
+- Calculator: all line items present for rush + multi + support
+- Calculator: round-half-up verified at boundary values
+- Publishing never changes old quote calculation
+- Soft delete prevents access
+
+**UI tests** (`apps/web/src/pricing-calculator-screen.test.tsx` — 15 tests):
+
+- Heading, status labels (draft/active/retired)
+- All input fields present
+- Checkboxes for support and rush
+- Calculate button and initial state (no result)
+- Formula toggle accessibility
+- Thai line item labels
+- Effective date display
+- All material/quality/color options
+
+**All 35 tests passing** ✅
+
+### Key Features
+
+- Basis-point multipliers (bps) with round-half-up integer arithmetic (no floating-point money)
+- 10-step formula precedence: base costs → risk → rush → quantity discount → shipping → platform fee → tax → minimum order
+- Versioned profiles: drafts get versionNo = 0, first publish assigns v1, subsequent publishes increment and retire old
+- Immutable published profiles retain old calculations indefinitely
+- Minimum order enforcement prevents under-pricing
+- Negative line items for quantity discounts
+- Provider UI matches server-side calculation with Thai ARIA support
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully

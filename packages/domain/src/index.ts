@@ -139,6 +139,7 @@ export * from './moderation-dispute.js';
 export * from './notification.js';
 export * from './order.js';
 export * from './payment.js';
+export * from './pricing-profile.js';
 export * from './printer.js';
 export * from './proposal.js';
 export * from './provider-public.js';
