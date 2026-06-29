@@ -426,6 +426,40 @@ export type {
   SubmitForAnalysisCommand,
 } from './model-analysis.js';
 export {
+  createSocialInteractionsService,
+  SocialInteractionError,
+} from './social-interactions.js';
+export type {
+  CommentDto,
+  FollowDto,
+  FollowUserCommand,
+  ListSocialInteractionsQuery,
+  PostCommentCommand,
+  ReactionDto,
+  SaveDto,
+  SaveItemCommand,
+  SocialInteractionsService,
+  SocialInteractionsServicePorts,
+  ToggleReactionCommand,
+  UnfollowUserCommand,
+} from './social-interactions.js';
+export {
+  createVerifiedContentService,
+  ShowcaseConsentError,
+  VerifiedPurchaseAuthorizationError,
+} from './verified-content.js';
+export type {
+  CheckShowcaseConsentQuery,
+  CheckVerifiedPurchaseCommand,
+  GrantShowcaseConsentCommand,
+  ShowcaseConsentDto,
+  VerifiedContentService,
+  VerifiedContentServicePorts,
+  VerifiedPurchaseDto,
+  WithdrawalPolicyDto,
+  WithdrawConsentCommand,
+} from './verified-content.js';
+export {
   createContentPostService,
   PostAuthorMismatchError,
   PostNotFoundError,

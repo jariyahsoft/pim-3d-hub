@@ -13,6 +13,8 @@ export * from './in-memory-moderation-dispute-repositories.js';
 export * from './in-memory-user-repositories.js';
 export * from './in-memory-notification-repositories.js';
 export * from './in-memory-review-repositories.js';
+export * from './in-memory-social-interactions-repositories.js';
+export * from './in-memory-verified-content-repository.js';
 export * from './sandbox-model-analyzer.js';
 export * from './sandbox-notification-adapter.js';
 export * from './uuidv7-generator.js';
