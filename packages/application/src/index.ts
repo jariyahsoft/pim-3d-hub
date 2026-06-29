@@ -478,3 +478,21 @@ export type {
   RebuildFeedResult,
   RemovePostCommand,
 } from './content-post.js';
+export {
+  createCreatorModerationService,
+  CreatorProfileError,
+} from './creator-moderation.js';
+export type {
+  CreateCreatorProfileCommand,
+  CreatorModerationService,
+  CreatorModerationServicePorts,
+  CreatorProfileDto,
+  FileReportCommand,
+  ModerationActionResultDto,
+  PublicCreatorProfileDto,
+  ReasonCode,
+  ReportDto,
+  SuspendCreatorCommand,
+  TakeModerationActionCommand,
+  UpdateCreatorProfileCommand,
+} from './creator-moderation.js';
