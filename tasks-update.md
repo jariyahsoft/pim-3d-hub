@@ -712,3 +712,138 @@ Completed multi-source eligibility rules engine with versioned machine-readable 
 
 - Start: ✅ sent successfully
 - Completion: ✅ sent successfully
+
+---
+
+## Task 50: Quote Snapshot, Expiry and Capacity Reservation
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T03:11:00Z
+- **Recommended Model:** Tier A (Sonnet 4.6 / Flash 3.5 / GPT-5.5)
+
+### Implementation Summary
+
+Completed immutable quote persistence with versioned snapshot fields, idempotent creation, capacity reservation linking via reservation port, expiry job walking expired quotes past expiresAt, and order handoff that consumes a quote exactly once.
+
+### Components Delivered
+
+1. **Domain** (`packages/domain/src/instant-quote-snapshot.ts` — 175 lines):
+   - 5 statuses: ACTIVE, RESERVED, CONSUMED, EXPIRED, INVALIDATED
+   - `allowedTransitions` table enforces valid state changes
+   - `InstantQuoteRecord` snapshots: buyer/provider/file/analysis/profile versions, input snapshot, line items, totals, expiry
+   - `assertInstantQuoteTransition()` throws typed state-transition error
+   - Idempotent `createIfNotExists()` contract
+   - Repository methods: `markConsumed`, `markExpired`, `markInvalidated`, `reserve` with optimistic concurrency
+
+2. **Application Service** (`packages/application/src/instant-quote-snapshot.ts` — 350 lines):
+   - `createInstantQuoteSnapshotService` with createSnapshot/reserve/consumeForOrder/expire/runExpiryJob/getById/list
+   - Idempotency on creation: same `(buyerId, idempotencyKey)` returns same record
+   - Idempotency on reservation via `findByIdempotencyKey` (best-effort cache hit)
+   - Quote expiry releases capacity reservation best-effort
+   - `runExpiryJob(now)` walks ACTIVE+RESERVED quotes past expiresAt and transitions to EXPIRED with reservation release
+   - Order handoff: only RESERVED or ACTIVE quotes may be consumed; CONSUMED is terminal
+   - DTOS preserve input snapshot, line items, totals
+   - Typed errors: `InstantQuoteNotFoundError`, `InstantQuoteExpiredError`, `InstantQuoteCapacityUnavailableError`, `InstantQuoteVersionConflictError`
+
+3. **Infrastructure** (`packages/infrastructure/src/in-memory-instant-quote-repository.ts` — 280 lines):
+   - `createIfNotExists()` with JSON serialization of inputSnapshot and lineItems
+   - Idempotency index `${buyerId}:${key}` → quoteId for fast lookup
+   - Cursor pagination with `cursor + limit`
+   - Version-conflict detection on every mutating call
+   - Sort by createdAt/updatedAt/expiresAt asc/desc
+
+### Test Coverage
+
+**`packages/application/src/instant-quote-snapshot.test.ts` — 13 tests:**
+
+**Persistence & idempotency:**
+
+- Creates a snapshot with line items and totals
+- Idempotent on duplicate creation (returns same quote, `created=false`)
+- Preserves input snapshot immutably
+
+**State transitions:**
+
+- Get by ID and not-found error
+- Explicit expire transition
+- Expiry job walks expired ACTIVE quotes
+- Expiry job skips valid future quotes
+- Consumed quote rejects second consume
+- Expired quote rejects consume
+- Reserve rejected on expired quote
+
+**Querying:**
+
+- List with buyerId + status filter
+- Helper types compile correctly
+
+**All 13 tests passing** ✅
+
+### Key Features
+
+- Snapshot immutability: status/version fields are the only mutable fields; pricing data never changes once captured
+- Idempotent creation: retries return the same quote instead of duplicating
+- Allowed transitions table: explicit machine guards ACTIVE→{RESERVED, EXPIRED, INVALIDATED, CONSUMED} and RESERVED→{CONSUMED, EXPIRED, INVALIDATED}
+- Order creation requires CONSUMED/EXPIRED/INVALIDATED refuse; only RESERVED→CONSUMED or ACTIVE→CONSUMED succeed (driven by consumed order ID)
+- runExpiryJob is idempotent across worker retries: terminal records (CONSUMED/EXPIRED/INVALIDATED) are skipped on subsequent runs
+- Reservation release on expiry: best-effort, retry-safe (release on already-released is tolerated)
+- No client total/capability is trusted — all values come from server-side analysis/profile/snapshot
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+# Summary: Task Range 48-50
+
+### Execution Results
+
+**Completed:** 3 of 3 tasks (100%)
+
+- ✅ Task 48: Pricing Formula Profiles and Calculator (35 tests passing)
+- ✅ Task 49: Instant Quote Eligibility and Pricing Engine (30 tests passing)
+- ✅ Task 50: Quote Snapshot, Expiry and Capacity Reservation (13 tests passing)
+
+### Total Deliverables
+
+**Task 48:** 800+ lines
+**Task 49:** 600+ lines
+**Task 50:** 800+ lines
+**Total:** 2,200+ lines
+
+### Telegram Notifications Summary
+
+**Total Sent:** 6
+
+- Task 48 started: ✅
+- Task 48 completed: ✅
+- Task 49 started: ✅
+- Task 49 completed: ✅
+- Task 50 started: ✅
+- Task 50 completed: ✅
+
+**Total Failed:** 0
+**Total Disabled:** 0
+
+### Technical Quality
+
+**Task 48:** Production-ready ✅ (35/35 tests passing, lint clean, typecheck clean)
+**Task 49:** Production-ready ✅ (30/30 tests passing, lint clean, typecheck clean)
+**Task 50:** Production-ready ✅ (13/13 tests passing, lint clean, typecheck clean)
+
+### Tests Summary
+
+**Task 48:** 35 tests passing (100%)
+**Task 49:** 30 tests passing (100%)
+**Task 50:** 13 tests passing (100%)
+**Total:** 78 tests passing (100%)
+
+---
+
+**Session Complete:** 2026-06-29T03:11:00Z
+**Tasks Completed:** 3 of 3 (Tasks 48-50)
+**Total Lines:** 2,200+ lines
+**Test Coverage:** 78 tests passing (100%)
