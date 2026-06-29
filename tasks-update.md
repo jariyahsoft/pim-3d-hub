@@ -1291,3 +1291,226 @@ Implemented unique social relationships (reactions, comments, follows, saves) wi
 **Tasks Completed:** 2 of 2 (Tasks 53-54)
 **Total Lines:** 2,900+ lines
 **Test Coverage:** 81 tests passing (100%)
+
+---
+
+# Session 2026-06-29 (Task Range 55-56)
+
+## Task Range 55-56
+
+### Active range: `55` to `56`
+
+### Telegram: enabled from invocation
+
+---
+
+## Task 55: Content Moderation and Creator Profiles
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T04:43:00Z
+- **Recommended Model:** Tier B (Haiku 4.5 / Flash 3.5 / GPT-5.4)
+
+### Implementation Summary
+
+Built public creator profile with strict data isolation (no KYC/contact in DTO), connected reports to moderation cases for posts/users, hide/remove/suspend actions with reason and audit, suspended creator cannot publish.
+
+### Components Delivered
+
+1. **Domain** (`packages/domain/src/creator-profile.ts` — 188 lines):
+   - 4 visibility states (PUBLIC_ACTIVE, PUBLIC_HIDDEN, SUSPENDED, REMOVED)
+   - `CreatorSocialLink` platform allowlist (WEBSITE/TWITTER/etc)
+   - `canCreatorPublishContent` and `isCreatorProfilePubliclyVisible` helpers
+   - `CreatorProfileNotFoundError`, `CreatorProfileVersionConflictError`
+
+2. **Application Service** (`packages/application/src/creator-moderation.ts` — 360 lines):
+   - `createCreatorProfile` / `updateCreatorProfile` / `suspendCreator` / `unhideCreator`
+   - `findPublicProfile` returns null for SUSPENDED/REMOVED (no PII leak)
+   - `getPrivateProfile` requires viewer === owner (AUTHORIZATION_DENIED)
+   - `fileReport` creates ModerationCase record
+   - `takeModerationAction` invokes `assertPostTransition` for post state changes
+   - Notification port fires on suspend with sanitized reason text
+
+3. **Infrastructure** (`packages/infrastructure/src/in-memory-creator-profile-repository.ts` — 254 lines):
+   - Full CRUD with visibility transitions
+   - Optimistic concurrency control on every mutation
+
+4. **UI** (`apps/web/src/creator-profile-screen.tsx` — 220 lines):
+   - Mobile-first profile layout with Thai labels
+   - Suspended/Hidden/Removed banners with role='alert'
+   - Report modal with reason dropdown + description
+   - Privacy note for non-exposed contact info
+   - Does not render report button for SUSPENDED creators
+
+### Test Coverage
+
+**Application (creator-moderation.test.ts — 9 tests):**
+
+- Create / cross-author rejection
+- Suspend with reason + duration / unhide
+- Notification port receives sanitized payload
+- Public profile omits KYC/contact keys
+- Public profile null for SUSPENDED
+- Private profile rejects non-owner
+- File report returns DTO with PENDING status
+
+**UI (creator-profile-screen.test.tsx — 15 tests):**
+
+- Heading / bio / province rendering
+- Stats display (posts/products/rating)
+- Social links with proper labels
+- Suspended/Hidden/Removed banners
+- Report button absence for SUSPENDED
+- Does not leak internal contact/KYC fields
+
+**All 24 tests passing** ✅
+
+### Key Features
+
+- Public DTO omits contact/KYC by **construction** (no fields exist in `PublicCreatorProfileDto`)
+- Suspended creator's profile is excluded from `findPublicProfile` results
+- `canCreatorPublishContent` blocks publishing when visibility is non-active
+- `findPublicProfile` returns `null` for SUSPENDED/REMOVED profiles
+- Notification payload uses sanitized reason field only (no stack traces / PII)
+- Cross-author actions rejected with `AUTHORIZATION_DENIED`
+- State transitions are machine-enforced (existing-→-new visibility mappings)
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+## Task 56: Product Schemas, Inventory, Used-Printer Evidence
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T04:58:00Z
+- **Recommended Model:** Tier B (Haiku 4.5 / Flash 3.5 / GPT-5.4)
+
+### Implementation Summary
+
+Built versioned category schemas for printer/material/part/accessory, product lifecycle with optimistic concurrency + KYC-verified-seller gating, used-printer evidence checklist that blocks publish when required fields are missing.
+
+### Components Delivered
+
+1. **Domain** (`packages/domain/src/product.ts` — 380 lines):
+   - Versioned `productCategorySchemaVersion` mismatch detection
+   - 4 statuses (DRAFT, PUBLISHED, SUSPENDED, REMOVED) with explicit state machine
+   - Category-specific fields (`PrinterCategoryFields`, `MaterialCategoryFields`, `PartCategoryFields`, `AccessoryCategoryFields`)
+   - `validateProductAgainstSchema` enforces title length, description length, non-negative price, reserved ≤ total
+   - Used-printer evidence with 6 fields (5 required + 1 optional masked serial)
+   - `isUsedPrinterEvidenceComplete` checks required fields only
+
+2. **Application Service** (`packages/application/src/product.ts` — 270 lines):
+   - `createDraft` rejects unverified sellers (kycPort.isSellerRoleVerified)
+   - `publish` calls `validateProductAgainstSchema` before mutation
+   - Used printer requires complete evidence (5/5 fields) for publish
+   - `recordInventory` rejects reserved > total
+   - `suspend` requires moderator with reason (audit trail)
+
+3. **Infrastructure** (`packages/infrastructure/src/in-memory-product-repository.ts` — 280 lines):
+   - Idempotent `createIfNotExists` via `${userId}:${idempotencyKey}` index
+   - `applyEvidence()` side-effect for publish-with-evidence flow
+   - Cursor pagination + sort by createdAt/updatedAt/publishedAt
+   - Version conflict detection
+
+4. **UI** (`apps/web/src/product-detail-screen.tsx` — 240 lines):
+   - Printer specs section (condition, age, technology, masked serial)
+   - Evidence checklist (✓ marks for completed required fields)
+   - Evidence-incomplete alert when required fields missing
+   - Inventory stock display with reserved/total
+   - Suspended/Removed banners
+   - Thai-locale price formatting
+
+### Test Coverage
+
+**Application (product.test.ts — 10 tests):**
+
+- Create product in DRAFT (validates input)
+- Reject unverified seller
+- Reject short title
+- Reject negative price
+- Used printer cannot publish without evidence
+- Used printer with full evidence publishes successfully
+- Record inventory (reserved ≤ total)
+- Reject reserved > total inventory
+- Suspend a published product with moderationNote
+- Reject publish of non-owned product
+
+**UI (product-detail-screen.test.tsx — 13 tests):**
+
+- Heading + description + Thai price
+- Printer details (condition, age, technology, masked serial)
+- Does not expose raw serial number
+- Evidence checklist (✓ when complete)
+- Evidence-incomplete alert when incomplete
+- Inventory stock display
+- Report button presence/absence
+- Suspended banner with moderation note
+- Removed state blocked
+- Loading / error banners
+
+**All 23 tests passing** ✅
+
+### Key Features
+
+- Category schemas are version-stamped (future migrations bump version, validators reject mismatches)
+- Used-printer evidence gate: **5 required** fields must all be true (POWER_ON_TEST, HOMING_TEST, EXTRUSION_TEST, TEST_PRINT_ATTACHED, KNOWN_DEFECTS_DISCLOSED); the 6th field `MASKED_SERIAL_PROOF` is optional (recommended but not required)
+- `validateProductAgainstSchema` rejects negative price/stock and reserved > total with field-specific error reasons
+- Serial number is always masked in `serialNumberMasked` (raw serial never stored/published)
+- KYC-verified-seller check gates draft creation (Task 17 prerequisite)
+- Optimistic concurrency control with `expectedVersion` on every mutation
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+# Summary: Task Range 55-56
+
+### Execution Results
+
+**Completed:** 2 of 2 tasks (100%)
+
+- ✅ Task 55: Content Moderation and Creator Profiles (24 tests passing)
+- ✅ Task 56: Product Schemas, Inventory, Used-Printer Evidence (23 tests passing)
+
+### Total Deliverables
+
+**Task 55:** 1,050+ lines
+**Task 56:** 1,170+ lines
+**Total:** 2,220+ lines
+
+### Telegram Notifications Summary
+
+**Total Sent:** 4
+
+- Task 55 started: ✅
+- Task 55 completed: ✅
+- Task 56 started: ✅
+- Task 56 completed: ✅
+
+**Total Failed:** 0
+**Total Disabled:** 0
+
+### Technical Quality
+
+**Task 55:** Production-ready ✅ (24/24 tests passing, lint clean, typecheck clean)
+**Task 56:** Production-ready ✅ (23/23 tests passing, lint clean, typecheck clean)
+
+### Tests Summary
+
+**Task 55:** 24 tests passing (100%)
+**Task 56:** 23 tests passing (100%)
+**Total:** 47 tests passing (100%)
+
+---
+
+**Session Complete:** 2026-06-29T04:58:00Z
+**Tasks Completed:** 2 of 2 (Tasks 55-56)
+**Total Lines:** 2,220+ lines
+**Test Coverage:** 47 tests passing (100%)
