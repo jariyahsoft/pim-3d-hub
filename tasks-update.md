@@ -1059,3 +1059,235 @@ Completed end-to-end pricing reproducibility contract, capacity no-oversell chec
 **Tasks Completed:** 2 of 2 (Tasks 51-52)
 **Total Lines:** 1,400+ lines
 **Test Coverage:** 51 tests passing (100%)
+
+---
+
+# Session 2026-06-29 (Task Range 53-54)
+
+## Task Range 53-54
+
+### Active range: `53` to `54`
+
+### Telegram: enabled from invocation
+
+---
+
+## Task 53: Content Posts, Media and Feed Projection
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T03:59:00Z
+- **Recommended Model:** Tier B (Haiku 4.5 / Flash 3.5 / GPT-5.4)
+
+### Implementation Summary
+
+Built community post lifecycle (draft/published/hidden/removed), media-as-derived/private-asset policy, and rebuildable feed projection that excludes hidden/draft/removed posts.
+
+### Components Delivered
+
+1. **Domain** (`packages/domain/src/content-post.ts` — 219 lines):
+   - 4 status types (DRAFT, PUBLISHED, HIDDEN, REMOVED) with explicit allowed-transitions table
+   - `PostMediaReference` with kind policies (DERIVED/EXTERNAL) — never private source model
+   - `PostLinkedReferences` linking to provider/service/product/order/showcase-consent
+   - `assertPostTransition` and `PostStateTransitionError`
+   - `FeedCard` rebuildable projection type with `feedProjectionVersion`
+   - `isPostVisibleInPublicFeed`, `canUserViewPost`, `isPrivateMedia` helpers
+
+2. **Application Service** (`packages/application/src/content-post.ts` — 270 lines):
+   - `createDraft` / `publish` / `hide` / `remove`
+   - Rejects cross-author publish (authorization)
+   - `rebuildFeed` filters published + public + non-future
+   - Rejects source-file-asset served directly as media (private-model policy)
+   - Optimistic concurrency for every state change
+
+3. **Infrastructure** (`packages/infrastructure/src/in-memory-content-post-repository.ts` — 215 lines):
+   - Full CRUD with cursor pagination
+   - JSON serialization of `linkedReferences` and `media`
+
+4. **UI** (`apps/web/src/feed-screen.tsx` — 270 lines):
+   - Sponsored badge kept distinct from verified rating with explanatory note
+   - Empty/loading/error/offline states
+   - Promote visibility per status with alt text + reactions
+
+5. **UI** (`apps/web/src/post-detail-screen.tsx` — 280 lines):
+   - Blocked state for HIDDEN/REMOVED/DRAFT posts
+   - Comments list with empty-state
+   - Comment form with submit-on-change handling
+
+### Test Coverage
+
+**Application** (`content-post.test.ts` — 15 tests):
+
+- Create draft / cross-author rejection
+- Publish / Hide / Republish / Remove transitions
+- Rejects publish on REMOVED
+- Rejects source-file asset served as direct media
+- Accepts derived media
+- Linked references preservation
+- Feed projection: filters hidden/draft, paginates correctly
+
+**UI** (`feed-screen.test.tsx` — 12 + `post-detail-screen.test.tsx` — 11 tests): 23 total
+
+- Empty/loading/error states
+- Sponsored badge distinct
+- Author display + interaction buttons
+- Comment list rendering and empty state
+- HIDDEN/REMOVED/DRAFT visibility
+- Comment form rendering
+
+**All 38 tests passing** ✅
+
+### Key Features
+
+- Status transitions are machine-enforced (`assertPostTransition`)
+- Private model files never served as public media
+- Feed projection rebuilds from source posts without bias toward sponsored
+- UI distinguishes sponsored vs verified-rating (color + badge text, not color alone)
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+## Task 54: Social Interactions, Verified Content and Showcase Consent
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T04:20:00Z
+- **Recommended Model:** Tier B (Haiku 4.5 / Flash 3.5 / GPT-5.4)
+
+### Implementation Summary
+
+Implemented unique social relationships (reactions, comments, follows, saves) with idempotency-key uniqueness; verified content tied to eligible completed order + participant; showcase consent scope + withdrawal policy that triggers HIDE_CONTENT.
+
+### Components Delivered
+
+1. **Domain** (`packages/domain/src/social-interactions.ts` — 240 lines):
+   - 5 reaction kinds (LIKE, WOW, HELPFUL, FOLLOW, SAVE)
+   - Comment with 3 statuses (PUBLISHED/HIDDEN/REMOVED)
+   - Follow with ACTIVE/PAUSED
+   - Save with POST/PRODUCT/PROVIDER content types
+   - `createIfNotExists` repository contracts for idempotency
+   - `buildSocialIdempotencyKey` helper
+
+2. **Domain** (`packages/domain/src/verified-content.ts` — 180 lines):
+   - `VerifiedPurchaseRecord` — `ELIGIBLE` only for eligible completed order + buyer-participant
+   - `ShowcaseConsent` with PUBLIC_FEED/PROVIDER_PROFILE/COMMUNITY_GALLERY/NDA_BLOCKED/NONE scopes
+   - WITHDRAWN status with proper record metadata
+   - `VerifiedPurchaseDecision` typed result
+
+3. **Application Service** (`packages/application/src/social-interactions.ts` — 270 lines):
+   - `toggleReaction`, `postComment`, `follow`, `unfollow`, `save`
+   - Idempotency via `createIfNotExists` (no duplicate reaction/follow/save)
+   - Cross-user actions rejected (`AUTHORIZATION_DENIED`)
+   - Empty body / oversized body rejected
+
+4. **Application Service** (`packages/application/src/verified-content.ts` — 230 lines):
+   - `checkVerifiedPurchase` derives status from order completion + participant list
+   - Client-supplied verified flag is ignored — server-authoritative
+   - `grantShowcaseConsent` rejects NDA-only scopes, requires at least one valid scope
+   - `withdrawConsent` requires `actorUserId === customerId`; double-withdraw rejected
+   - Returns `WithdrawalPolicyDto` containing the approved visibility action
+
+5. **Infrastructure** (`packages/infrastructure/src/in-memory-social-interactions-repositories.ts` — 380 lines):
+   - 4 repositories (reaction/comment/follow/save) with optimistic concurrency
+
+6. **Infrastructure** (`packages/infrastructure/src/in-memory-verified-content-repository.ts` — 195 lines):
+   - Verified purchase + showcase consent repos with JSON scopes
+
+7. **UI** (`apps/web/src/social-interactions-screen.tsx` — 290 lines):
+   - Reactions row with aria-pressed state
+   - Verified Purchase badge with order ID snippet
+   - Showcase consent card with scope tags + withdrawal flow
+
+### Test Coverage
+
+**Application — social-interactions.test.ts (14 tests):**
+
+- Reaction: toggle / idempotent / cross-user rejection
+- Comment: post / empty / oversized / cross-user / hide
+- Follow: create / self-block / idempotent / unfollow
+- Save: create / idempotent
+
+**Application — verified-content.test.ts (13 tests):**
+
+- Verified purchase: eligible / unrelated / incomplete / unknown order
+- Consent: grant / NDA-blocked / incomplete order / empty scope
+- Withdrawal: customer / non-owner rejected / double withdrawal rejected
+- Find by order / model isolation preserved
+
+**UI — social-interactions-screen.test.tsx (16 tests):**
+
+- Heading / reactions section / verified badge
+- Hide verified when ineligible
+- Thai labels (reaction, withdrawal action)
+- Consent status GRANTED + WITHDRAWN states
+- Scope tags rendering
+- aria-label counts
+- Demo data integrity
+
+**All 43 tests passing** ✅
+
+### Key Features
+
+- Verified-Purchase flag is **never** client-supplied — server derives from completed order + buyer as participant
+- Idempotent reaction/follow/save via `${userId}:${idempotencyKey}` index prevents duplicates under retried requests
+- Cross-user actions rejected with `AUTHORIZATION_DENIED`
+- NDA-blocked jobs cannot be showcased (consent rejected)
+- Showcase consent withdrawal can only be initiated by the customer themselves (authorization check)
+- Withdrawing consent emits a policy DTO with approved visibility action (default HIDE_CONTENT)
+- Model accessibility isolation: original 3D model file is never exposed via media (enforced at Task 53 layer)
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+# Summary: Task Range 53-54
+
+### Execution Results
+
+**Completed:** 2 of 2 tasks (100%)
+
+- ✅ Task 53: Content Posts, Media and Feed Projection (38 tests passing)
+- ✅ Task 54: Social Interactions, Verified Content, Showcase Consent (43 tests passing)
+
+### Total Deliverables
+
+**Task 53:** 1,100+ lines
+**Task 54:** 1,800+ lines
+**Total:** 2,900+ lines
+
+### Telegram Notifications Summary
+
+**Total Sent:** 4
+
+- Task 53 started: ✅
+- Task 53 completed: ✅
+- Task 54 started: ✅
+- Task 54 completed: ✅
+
+**Total Failed:** 0
+**Total Disabled:** 0
+
+### Technical Quality
+
+**Task 53:** Production-ready ✅ (38/38 tests passing, lint clean, typecheck clean)
+**Task 54:** Production-ready ✅ (43/43 tests passing, lint clean, typecheck clean)
+
+### Tests Summary
+
+**Task 53:** 38 tests passing (100%)
+**Task 54:** 43 tests passing (100%)
+**Total:** 81 tests passing (100%)
+
+---
+
+**Session Complete:** 2026-06-29T04:20:00Z
+**Tasks Completed:** 2 of 2 (Tasks 53-54)
+**Total Lines:** 2,900+ lines
+**Test Coverage:** 81 tests passing (100%)
