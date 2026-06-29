@@ -330,3 +330,21 @@ export type {
   ExportRunStatus,
   ExportWorkerResult,
 } from './export-run.js';
+export {
+  createModelAnalysisService,
+  assertModelAnalysisVersionConflict,
+  ModelAnalysisNotFoundError,
+  ModelAnalysisDuplicateError,
+  ModelAnalysisUnsupportedFileError,
+  ModelAnalysisDeferredError,
+} from './model-analysis.js';
+export type {
+  AnalysisRequestDto,
+  ModelAnalysisDto,
+  ModelAnalysisService,
+  ModelAnalysisServicePorts,
+  ModelAnalyzerPort,
+  ProcessAnalysisCommand,
+  RetryAnalysisCommand,
+  SubmitForAnalysisCommand,
+} from './model-analysis.js';

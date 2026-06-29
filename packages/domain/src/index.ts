@@ -132,6 +132,7 @@ export * from './audit.js';
 export * from './capacity.js';
 export * from './conversation.js';
 export * from './file.js';
+export * from './file-analysis.js';
 export * from './file-upload.js';
 export * from './job-discovery.js';
 export * from './moderation-dispute.js';
