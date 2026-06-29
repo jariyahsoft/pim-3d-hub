@@ -79,7 +79,10 @@ export function parseBinaryStl(
   if (buffer.byteLength < expectedSize) {
     return 'PARSE_ERROR';
   }
-  if (triangleCount > MAX_TRIANGLES) {
+  if (triangleCount === 0 || triangleCount > MAX_TRIANGLES) {
+    if (triangleCount === 0) {
+      return 'PARSE_ERROR';
+    }
     return 'TOO_LARGE';
   }
   const facets: number[] = [];
@@ -171,7 +174,10 @@ export function parseAsciiStl(
   if (triangleCount < 1 || vertices.length < 9) {
     return 'PARSE_ERROR';
   }
-  if (triangleCount > MAX_TRIANGLES) {
+  if (triangleCount === 0 || triangleCount > MAX_TRIANGLES) {
+    if (triangleCount === 0) {
+      return 'PARSE_ERROR';
+    }
     return 'TOO_LARGE';
   }
   const widthMm = +(maxX - minX).toFixed(2);
