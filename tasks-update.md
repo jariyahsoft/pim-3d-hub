@@ -199,3 +199,175 @@ Both tasks in range 42-43 are now complete. The file upload system is production
 **Tasks Completed:** 2 of 2 (Tasks 42-43)
 **Total Lines:** 1,100+ lines
 **Test Coverage:** 31 tests passing (100%)
+
+---
+
+# Session 2026-06-29 (Task Range 44-45)
+
+## Task Range 44-45
+
+### Active range: `44` to `45`
+
+### Telegram: enabled from invocation
+
+---
+
+## Task 44: Upload Offline, Retry and Recovery UI
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T00:15:00Z
+- **Recommended Model:** Tier B (Haiku 4.5 / Flash 3.5 / GPT-5.4)
+
+### Implementation Summary
+
+Completed client-side upload state machine with full coverage of idle, preparing, uploading, paused, offline, verifying, scanning, ready, rejected, and failed states.
+
+### Components Delivered
+
+1. **Upload Demo** (`apps/web/src/upload-demo.ts` - 175 lines):
+   - UploadDraft type with safe serialization of session metadata
+   - UploadState union with 10 states matching the upload lifecycle
+   - `uploadStateAriaLabel`: Thai-language ARIA announcements per state
+   - `uploadStateIconLabel`: Icon descriptions for assistive technology
+   - `isTerminalState` / `isProgressState`: state classification guards
+   - Draft storage helpers (load/save/clear) for localStorage persistence
+   - Demo session and in-progress draft fixtures
+
+2. **Upload Screen** (`apps/web/src/upload-screen.tsx` - 270 lines):
+   - Drag-and-drop file zone with keyboard and screen reader support
+   - Progress bar with `aria-valuenow` for all active states
+   - Pause/resume controls for in-progress uploads
+   - Online/offline detection via `window` event listeners
+   - Offline state shows message + disabled retry button
+   - Retry flow from expired/aborted preserving surrounding job draft
+   - Cancel with localStorage cleanup
+   - ARIA live region (polite) for state transition announcements
+   - Terminal states (ready, rejected, failed) with distinct UI and actions
+   - Progress bar fill pauses style during pause/offline
+   - Accepts `.stl`, `.obj`, `.3mf`, `.zip`, `.step`, `.stp`, `.3ds`
+
+3. **Tests** (`apps/web/src/upload-screen.test.tsx` - 250 lines):
+   - 18 tests covering: idle drop zone, loading, uploading, paused, offline, verifying, scanning, ready, rejected, failed, error message, initial draft override, helper functions
+
+### Key Features
+
+- State machine covers all upload phases: idle → preparing → uploading → (paused | offline) → verifying → scanning → ready | rejected | failed
+- Network interruption auto-detection transitions to offline state
+- Expired sessions preserve the draft for retry (never shows "server success")
+- ARIA live region announces current state to screen readers
+- Guarded pause/resume/retry/cancel actions for each state
+- Private indicator on the upload screen
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+## Task 45: 3D Parser, Viewer, Preview and Dimensions
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T00:25:00Z
+- **Recommended Model:** Tier B (Haiku 4.5 / Flash 3.5 / GPT-5.4)
+
+### Implementation Summary
+
+Completed 3D viewer evaluation (ADR-016), binary and ASCII STL parser, Canvas-based wireframe renderer with rotate/zoom/reset, dimension display, and unit ambiguity handling.
+
+### Components Delivered
+
+1. **ADR-016** (`docs/design/adr-016-3d-viewer-parser.md`):
+   - Evaluated 4 options: Three.js, @google/model-viewer, Babylon.js, pure Canvas 2D
+   - Decision: pure Canvas 2D for Phase 1B, Three.js migration for Phase 1C/2A
+   - Documents: license, bundle size, mobile performance for each
+   - Resource limits: 300K triangle cap, 60 fps via rAF
+   - Private URL protection: component never receives raw storage URL
+   - Unit ambiguity handling: cannot proceed silently
+
+2. **Model Preview Demo** (`apps/web/src/model-preview-demo.ts` - 275 lines):
+   - `parseBinaryStl()`: STL binary format parser with bounding box calculation
+   - `parseAsciiStl()`: STL ASCII format parser
+   - `projectOrtho()`: 3D-to-2D orthographic projection with YX rotation matrix
+   - `computeZoomFactor()`: Auto-scale to fit viewport
+   - `detectUnitAmbiguity()`: Detects MM/CM/INCH/UNKNOWN and triggers confirmation
+   - `formatDimensions()` / `dimensionsAriaLabel()`: Display helpers in Thai/English
+   - `MAX_TRIANGLES = 300_000`: Hard cap on mesh complexity
+
+3. **Model Preview Screen** (`apps/web/src/model-preview-screen.tsx` - 280 lines):
+   - File select button and drag-to-load entry point
+   - Canvas 2D wireframe renderer with background grid for depth perception
+   - Mouse drag for rotation, zoom in/out buttons, reset view button
+   - Auto-fit on first load via computeZoomFactor
+   - Dimension display in mm with ARIA live region
+   - Error states for too many triangles and parse failures
+   - Unit ambiguity confirmation dialog with scale input
+   - Keyboard shortcut: R key resets view
+
+4. **Tests** (`apps/web/src/model-preview-screen.test.tsx` - 195 lines):
+   - 17 tests covering: empty state, metadata display, error/loading/unit ambiguity renders, binary STL valid/invalid/too-large, ASCII STL valid/invalid, projection math, zoom factor, dimension formatting, ARIA labels, unit ambiguity detection
+
+### Key Features
+
+- Binary and ASCII STL parsing in browser (no server trips for metadata)
+- Canvas 2D wireframe rendering with orthographic projection
+- Bounding box computation and formatted dimension display
+- 300K triangle cap prevents browser overload
+- Unit ambiguity detection (MM/CM/INCH/UNKNOWN) with user confirmation
+- Private source URL is never exposed to the viewer component
+- Mouse drag rotation, zoom in/out, reset view
+- Thai-language dimensions for screen readers
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+## Summary: Task Range 44-45
+
+### Execution Results
+
+**Completed:** 2 of 2 tasks (100%)
+
+- ✅ Task 44: Upload Offline, Retry and Recovery UI (18 tests passing)
+- ✅ Task 45: 3D Parser, Viewer, Preview and Dimensions (17 tests passing)
+
+### Total Deliverables
+
+**Task 44:** 700 lines (complete with 18 passing tests)
+**Task 45:** 750 lines + ADR (complete with 17 passing tests)
+**Total:** 1,450+ lines
+
+### Telegram Notifications Summary
+
+**Total Sent:** 4
+
+- Task 44 started: ✅
+- Task 44 completed: ✅
+- Task 45 started: ✅
+- Task 45 completed: ✅
+
+**Total Failed:** 0
+**Total Disabled:** 0
+
+### Technical Quality
+
+**Task 44:** Production-ready ✅ (18/18 tests passing, lint clean, typecheck clean)
+**Task 45:** Production-ready ✅ (17/17 tests passing, lint clean, typecheck clean)
+
+### Tests Summary
+
+**Task 44:** 18 tests passing (100%)
+**Task 45:** 17 tests passing (100%)
+**Total:** 35 tests passing (100%)
+
+---
+
+**Session Complete:** 2026-06-29T00:25:00Z
+**Tasks Completed:** 2 of 2 (Tasks 44-45)
+**Total Lines:** 1,450+ lines
+**Test Coverage:** 35 tests passing (100%)
