@@ -262,6 +262,23 @@ export {
   InstantQuoteProfileNotFoundError,
 } from './instant-quote.js';
 export {
+  createQuoteComparisonService,
+  QuoteAlreadyConsumedError,
+  QuoteComparisonEmptyError,
+  QuoteExpiredForCheckoutError,
+  QuoteNotSelectedError,
+} from './quote-comparison.js';
+export type {
+  CheckoutInitiationDto,
+  GatherQuoteComparisonQuery,
+  InitiateCheckoutCommand,
+  ManualFallbackDraftDto,
+  ManualFallbackRequestCommand,
+  QuoteComparisonItemDto,
+  QuoteComparisonService,
+  QuoteComparisonServicePorts,
+} from './quote-comparison.js';
+export {
   createInstantQuoteSnapshotService,
   assertInstantQuoteVersionConflict,
   InstantQuoteCapacityUnavailableError,
