@@ -162,3 +162,4 @@ export * from './verified-content.js';
 export * from './shipping.js';
 export * from './partner-analytics.js';
 export * from './smart-matching.js';
+export * from './release-operations.js';
