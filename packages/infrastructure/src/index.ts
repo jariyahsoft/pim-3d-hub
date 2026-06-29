@@ -9,6 +9,7 @@ export * from './in-memory-content-post-repository.js';
 export * from './in-memory-creator-profile-repository.js';
 export * from './in-memory-model-analysis-repositories.js';
 export * from './in-memory-pricing-profile-repository.js';
+export * from './in-memory-product-repository.js';
 export * from './in-memory-instant-quote-repository.js';
 export * from './in-memory-moderation-dispute-repositories.js';
 export * from './in-memory-user-repositories.js';

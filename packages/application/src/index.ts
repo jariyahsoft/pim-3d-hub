@@ -496,3 +496,16 @@ export type {
   TakeModerationActionCommand,
   UpdateCreatorProfileCommand,
 } from './creator-moderation.js';
+export { createProductService, ProductServiceError } from './product.js';
+export type {
+  CreateProductCommand,
+  ListProductsQuery,
+  ProductDto,
+  ProductService,
+  ProductServicePorts,
+  ProductVariantDto,
+  PublishProductCommand,
+  RecordInventoryCommand,
+  SuspendProductCommand,
+  UpdateProductCommand,
+} from './product.js';
