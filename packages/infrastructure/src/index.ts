@@ -3,6 +3,8 @@ export * from './firestore-provider-profile-repository.js';
 export * from './firestore-provider-service-repository.js';
 export * from './firebase-identity-adapter.js';
 export * from './in-memory-audit-log-repository.js';
+export * from './in-memory-file-retention-and-scan-repositories.js';
+export * from './in-memory-file-upload-session-repository.js';
 export * from './in-memory-moderation-dispute-repositories.js';
 export * from './in-memory-user-repositories.js';
 export * from './in-memory-notification-repositories.js';

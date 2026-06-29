@@ -125,6 +125,48 @@ export {
   InvalidFileAccessStateError,
 } from './file-access.js';
 export {
+  createFileUploadSessionService,
+  assertFileUploadSessionVersionConflict,
+  FileUploadSessionNotFoundError,
+  FileUploadSessionExpiredError,
+  FileUploadSessionStateError,
+  FileTypeUnsupportedError,
+  FileSizeExceededError,
+} from './file-upload-session.js';
+export {
+  createFileCompletionService,
+  describeUploadSession,
+  isGrantActive,
+  FileUploadCompletionStateError,
+  FileUploadCompletionValidationError,
+  FileUploadChecksumMismatchError,
+  FileUploadObjectSizeMismatchError,
+  FileScanRejectedError,
+} from './file-upload-completion.js';
+export type {
+  CompleteFileUploadCommand,
+  CreateFileRetentionHoldCommand,
+  FileCompletionService,
+  FileCompletionServicePorts,
+  FileRetentionDecisionDto,
+  FileScanPort,
+  FileScanResultDto,
+  FileUploadCompletionDto,
+  ObjectStorageInspector,
+  ReleaseFileRetentionHoldCommand,
+  RunRetentionJobCommand,
+} from './file-upload-completion.js';
+export type {
+  AppendUploadChunkCommand,
+  AbortFileUploadSessionCommand,
+  CreateFileUploadSessionCommand,
+  FileUploadSessionDto,
+  FileUploadSessionService,
+  FileUploadSessionServicePorts,
+  FileUploadValidationError,
+  ResumableUploadTicketDto,
+} from './file-upload-session.js';
+export {
   createJobDiscoveryService,
   JobDiscoveryNotFoundError,
 } from './job-discovery.js';
