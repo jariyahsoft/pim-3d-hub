@@ -156,6 +156,7 @@ export * from './refund-payout.js';
 export * from './repository.js';
 export * from './review.js';
 export * from './service-request.js';
+export * from './slicer.js';
 export * from './social-interactions.js';
 export * from './verified-content.js';
 export * from './shipping.js';

@@ -537,3 +537,16 @@ export type {
   ProductSearchResponseDto,
   SearchProductsQuery,
 } from './product-search-order.js';
+export { createSlicerService } from './slicer.js';
+export type {
+  CreateSlicerProfileCommand,
+  ProcessNextSliceCommand,
+  RetryDeadLetterCommand,
+  SliceJobDto,
+  SliceJobResult,
+  SlicerProfileDto,
+  SlicerSandboxPort,
+  SlicerService,
+  SlicerServicePorts,
+  SubmitSliceCommand,
+} from './slicer.js';
