@@ -12,6 +12,7 @@ export * from './in-memory-pricing-profile-repository.js';
 export * from './in-memory-product-order-repositories.js';
 export * from './in-memory-product-repository.js';
 export * from './in-memory-product-search-adapter.js';
+export * from './in-memory-promotion-repository.js';
 export * from './in-memory-instant-quote-repository.js';
 export * from './in-memory-moderation-dispute-repositories.js';
 export * from './in-memory-user-repositories.js';

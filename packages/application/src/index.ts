@@ -510,6 +510,19 @@ export type {
   UpdateProductCommand,
 } from './product.js';
 export {
+  createPromotionSubscriptionService,
+  PromotionError,
+} from './promotion-subscription.js';
+export type {
+  ActivatePromotionCommand,
+  CreatePromotionCommand,
+  EntitlementDto,
+  PromotionDto,
+  PromotionSubscriptionPorts,
+  PromotionSubscriptionService,
+  TrackMetricCommand,
+} from './promotion-subscription.js';
+export {
   createProductSearchOrderService,
   ProductSearchOrderError,
 } from './product-search-order.js';

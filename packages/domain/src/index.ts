@@ -146,6 +146,7 @@ export * from './payment.js';
 export * from './product-order.js';
 export * from './product-search.js';
 export * from './product.js';
+export * from './promotion.js';
 
 export * from './pricing-profile.js';
 export * from './printer.js';
