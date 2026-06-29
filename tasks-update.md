@@ -633,3 +633,82 @@ Completed pricing formula definition with basis-point integer arithmetic, versio
 
 - Start: ✅ sent successfully
 - Completion: ✅ sent successfully
+
+---
+
+## Task 49: Instant Quote Eligibility and Pricing Engine
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T03:00:00Z
+- **Recommended Model:** Tier A (Sonnet 4.6 / Flash 3.5 / GPT-5.5)
+
+### Implementation Summary
+
+Completed multi-source eligibility rules engine with versioned machine-readable reason codes plus deterministic pricing engine that composes analysis, profile, and context to produce explainable line items.
+
+### Components Delivered
+
+1. **Domain** (`packages/domain/src/instant-quote.ts` — 160 lines):
+   - `eligibilityReasonCodesV1`: Versioned machine-readable reason codes (21 codes)
+   - `checkEligibility()`: Pure function evaluating analysis/printer/service/material/quality/profile/due-date/manual-reason checks
+   - Returns `{ eligible, reasonCodes, schemaVersion }`
+   - Reason codes stable across versions (1.x contract)
+   - HUMAN REASON MAPPING OUTSIDE DOMAIN: machine-readable codes returned; presentation layer maps to localized strings
+
+2. **Application Service** (`packages/application/src/instant-quote.ts` — 165 lines):
+   - `createInstantQuoteService`: Wraps eligibility check and pricing calculation
+   - `checkEligibility()`: Adapter that converts records to eligibility input
+   - `calculateQuote()`: Loads profile, calculates price using `calculatePrice` from Task 48
+   - `InstantQuoteContextPort`: Interface for fetching printer/service/material context
+   - `ProviderEligibilityContext`: Snapshot provider context for the engine
+   - Typed error classes (`InstantQuoteIneligibleError`, `InstantQuoteProfileNotFoundError`)
+
+### Test Coverage
+
+**`packages/application/src/instant-quote.test.ts` — 30 tests:**
+
+**Eligibility tests (26):**
+
+- Happy path returns eligible
+- Rejects when analysis missing
+- Rejects when analysis failed / untrusted / unknown units
+- Rejects when build volume exceeded / unknown
+- Rejects when printer not found / inactive
+- Rejects when service not found / inactive
+- Rejects when material not found / out of stock / wrong color
+- Rejects when quality not supported
+- Rejects when pricing profile missing / inactive
+- Rejects zero quantity
+- Rejects due date too early
+- Allows due date far enough in future
+- Allows null due date
+- Rejects when analysis hints indicate manual review
+- Returns multiple reasons simultaneously
+- Deterministic (same input → same output)
+- Returns schema version 1
+- Reason code set has expected codes
+
+**Pricing tests (4):**
+
+- Calculates price from active profile
+- Rejects inactive profile via eligibility
+- Deterministic pricing across calls
+- Different profiles produce different results
+
+**All 30 tests passing** ✅
+
+### Key Features
+
+- 21 versioned eligibility reason codes covering analysis, printer, service, material, color, quality, profile, quantity, capacity, due date, manual fallback, unit ambiguity
+- Eligibility check is a pure function — no I/O, fully testable
+- Separate `EligibilityContext` (provider data) vs `EligibilityCheckInput` (buyer analysis) — supports separation of concerns
+- Reason codes stable across versions; presentation layer maps codes → human strings
+- Pricing engine delegates to `calculatePrice()` from Task 48 — no duplicated computation logic
+- Profile-based eligibility check (active required) gates `calculateQuote`
+- No client-supplied totals or capabilities are trusted — all values flow from analysis + profile + context
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully

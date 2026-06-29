@@ -257,6 +257,21 @@ export type {
   UpdatePricingProfileCommand,
 } from './pricing-profile.js';
 export {
+  createInstantQuoteService,
+  InstantQuoteIneligibleError,
+  InstantQuoteProfileNotFoundError,
+} from './instant-quote.js';
+export type {
+  CheckInstantQuoteEligibilityCommand,
+  CalculateQuoteCommand,
+  EligibilityVerdictDto,
+  InstantQuoteContextPort,
+  InstantQuoteDto,
+  InstantQuoteService,
+  InstantQuoteServicePorts,
+  ProviderEligibilityContext,
+} from './instant-quote.js';
+export {
   assertPrinterVersionConflict,
   createPrinterServiceManager,
   PrinterNotFoundError,

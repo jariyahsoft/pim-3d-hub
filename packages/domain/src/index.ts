@@ -134,6 +134,7 @@ export * from './conversation.js';
 export * from './file.js';
 export * from './file-analysis.js';
 export * from './file-upload.js';
+export * from './instant-quote.js';
 export * from './job-discovery.js';
 export * from './moderation-dispute.js';
 export * from './notification.js';
