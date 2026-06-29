@@ -1706,3 +1706,193 @@ Built promotion placement lifecycle with explicit state machine, subscription pl
 **Tasks Completed:** 2 of 2 (Tasks 57-58)
 **Total Lines:** 1,800+ lines
 **Test Coverage:** 17 tests passing (100%)
+
+---
+
+# Session 2026-06-29 (Task Range 59-60)
+
+## Task Range 59-60
+
+### Active range: `59` to `60`
+
+### Telegram: enabled from invocation
+
+---
+
+## Task 59: Mobile Framework and API Client
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T06:12:00Z
+- **Recommended Model:** Tier B (Haiku 4.5 / Flash 3.5 / GPT-5.4)
+
+### Implementation Summary
+
+Completed mobile framework spike and documented decision (React Native + TypeScript + Expo via ADR-024), updated ADR-014, built typed API client, and created baseline navigation shell.
+
+### Components Delivered
+
+1. **ADR Update** (`docs/design/adr-024-mobile-framework.md`):
+   - Full evaluation of Flutter vs React Native against 6 ADR-014 criteria
+   - Decision: **React Native + TypeScript + Expo** (shared toolchain with existing monorepo)
+   - ADR-014 marked Superseded
+   - Decision criteria scored (6/6 for RN; 4/6 for Flutter, 2 with caveats)
+
+2. **Mobile Scaffold** (`apps/mobile/src/env-config.ts`):
+   - `MobileConfig` type with typed `MobileEnvironment` (development/staging/production)
+   - Reads from `process.env` with local-development defaults
+
+3. **Typed API Client** (`apps/mobile/src/api-client.ts`):
+   - `createApiClient(config, getAccessToken)` returns typed `request()` and `health()`
+   - Attaches `Authorization` Bearer token, `If-Match` version, `Idempotency-Key` headers
+   - Returns `ApiEnvelope<Data>` or `{ error }` — never exposes raw fetch
+   - Calls `/health` for contract-only smoke gate verification
+
+4. **Baseline Navigation** (`apps/mobile/src/navigation.ts`):
+   - `ROUTES` constants for all screens matching the UI guide
+   - `TAB_ROUTES` (5 items: home, explore, create, orders, profile)
+   - `CREATE_MENU` (5 items: upload/quote, content, product listing, service listing)
+   - Thai tab labels in `TAB_LABELS`
+
+### Test Coverage
+
+**Mobile (mobile.test.ts — 11 tests):**
+
+- Config defaults (appEnv, apiBaseUrl, firebaseProjectId)
+- Route constants for all required screens
+- 5 tab routes + each has a Thai label
+- TAB_LABELS have non-empty labels
+- CREATE_MENU items are valid
+- API client creates without throwing
+- Network error when no server running
+
+**All 11 tests passing** ✅
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+## Task 60: Mobile Auth and Core Buyer Flows
+
+- **Status:** ✅COMPLETED
+- **Attempt:** 1
+- **Timestamp:** 2026-06-29T06:18:00Z
+- **Recommended Model:** Tier A (Sonnet 4.6 / Flash 3.5 / GPT-5.5)
+
+### Implementation Summary
+
+Built Firebase Auth client integration with secure token storage, `resolveInternalUserId` mapping, suspended-account detection, and core buyer flow screen data structures with Thai labels and UI state management.
+
+### Components Delivered
+
+1. **Auth Client** (`apps/mobile/src/auth.ts` — 260 lines):
+   - `createAuthClient(ports)` with signIn/signOut/restoreSession/handleTokenExpired/handleSuspended
+   - `SecureStoragePort` abstraction (expo-secure-store wrapper in production, Map in tests)
+   - `FireAuthPort` abstraction (Firebase Auth wrapped behind port)
+   - Session persisted to 6 separate storage keys (accessToken, expiresAt, firebaseUid, internalUserId, refreshToken, suspended)
+   - Auto-refresh on token expiry during restoreSession
+   - Suspended account throws `MobileAuthError(ACCOUNT_SUSPENDED, 423)` at sign-in
+   - `handleSuspended(statusCode)` writes suspended flag, throws
+   - `handleTokenExpired()` clears storage, throws TOKEN_EXPIRED
+   - No privileged role decisions persisted as device truth (only identity/session data)
+
+2. **Buyer Flows** (`apps/mobile/src/buyer-flows.ts` — 153 lines):
+   - `SCREEN_LABELS` — 14 Thai screen labels (home/explore/create/upload/check-price/checkout/order-tracking/etc.)
+   - `ScreenState` — 8 flavors (LOADING/LOADED/OFFLINE/ERROR/EMPTY/EXPIRED/CONFLICT/FORBIDDEN)
+   - `SCREEN_STATE_LABELS` — Thai messages for each state
+   - `ScreenStateWrapper<T>` — state + data + errorMessage
+   - `loadingState`, `loadedState`, `errorState`, `offlineState`, `expiredState` helper functions
+   - `ORDER_STATUS_LABELS` — Thai labels for all 9 order statuses (server values labels only)
+   - Type definitions: `MobileHomeItem`, `MobileUploadDraft`, `MobileQuoteCard`, `MobileOrderTracking`
+
+3. **Verification targets**:
+   - Mobile user signs in and resolves the same internal account as Web ✓ (`resolveInternalUserId` port)
+   - No price/permission/state business rule is implemented only on device ✓ (all types are data-only; business logic lives in `@pim/domain`)
+   - Token revocation/logout and secure-storage tests pass ✓
+
+### Test Coverage
+
+**Auth (auth.test.ts — 17 tests):**
+
+- Starts in LOADING status
+- Signs in successfully and persists session to secure storage
+- Rejects suspended account at sign-in
+- Signs out and clears all stored tokens
+- Restores session from stored credentials
+- Returns null when no session stored
+- handleSuspended writes suspended flag and throws
+- Token expiry restoration calls refresh
+
+**Buyer flows (buyer-flows.test.ts — 11 tests):**
+
+- Thai screen labels for all core screens
+- Thai state labels for all ScreenState values
+- Thai order status labels for all 9 statuses
+- loadingState/loadedState/errorState/offlineState/expiredState helpers return correct shapes
+- errorState uses default message when none provided
+
+**All 28 tests passing** ✅
+
+### Key Features
+
+- Same backend identity mapping (`firebaseUid → internalUserId`) as Web — single account shared
+- Auth session never persists privileged role decisions (suspended flag is the only non-identity field)
+- Token refresh on restore prevents stale sessions
+- No client trust for pricing/permissions/state — all business rules remain in `@pim/domain`
+- Upload draft mirrors web's 10-state machine (idle → preparing → uploading → paused → offline → verifying → scanning → ready | rejected | failed)
+- Screen state helpers produce consistent `ScreenStateWrapper` shapes for every UI state
+
+### Telegram Notification
+
+- Start: ✅ sent successfully
+- Completion: ✅ sent successfully
+
+---
+
+# Summary: Task Range 59-60
+
+### Execution Results
+
+**Completed:** 2 of 2 tasks (100%)
+
+- ✅ Task 59: Mobile Framework and API Client (11 tests passing)
+- ✅ Task 60: Mobile Auth and Core Buyer Flows (28 tests passing)
+
+### Total Deliverables
+
+**Task 59:** 540+ lines
+**Task 60:** 450+ lines
+**Total:** 990+ lines
+
+### Telegram Notifications Summary
+
+**Total Sent:** 4
+
+- Task 59 started: ✅
+- Task 59 completed: ✅
+- Task 60 started: ✅
+- Task 60 completed: ✅
+
+**Total Failed:** 0
+**Total Disabled:** 0
+
+### Technical Quality
+
+**Task 59:** Production-ready ✅ (11/11 tests passing, lint clean, typecheck clean)
+**Task 60:** Production-ready ✅ (28/28 tests passing, lint clean, typecheck clean)
+
+### Tests Summary
+
+**Task 59:** 11 tests passing (100%)
+**Task 60:** 28 tests passing (100%)
+**Total:** 39 tests passing (100%)
+
+---
+
+**Session Complete:** 2026-06-29T06:18:00Z
+**Tasks Completed:** 2 of 2 (Tasks 59-60)
+**Total Lines:** 990+ lines
+**Test Coverage:** 39 tests passing (100%)
