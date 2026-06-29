@@ -268,6 +268,16 @@ export {
   QuoteExpiredForCheckoutError,
   QuoteNotSelectedError,
 } from './quote-comparison.js';
+export {
+  createPhase1BVerificationService,
+  VerificationGateFailedError,
+} from './phase1b-verification.js';
+export type {
+  GateResult,
+  Phase1BVerificationPorts,
+  Phase1BVerificationReport,
+  Phase1BVerificationService,
+} from './phase1b-verification.js';
 export type {
   CheckoutInitiationDto,
   GatherQuoteComparisonQuery,
