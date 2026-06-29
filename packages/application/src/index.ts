@@ -509,3 +509,18 @@ export type {
   SuspendProductCommand,
   UpdateProductCommand,
 } from './product.js';
+export {
+  createProductSearchOrderService,
+  ProductSearchOrderError,
+} from './product-search-order.js';
+export type {
+  CancelExpiredOrderCommand,
+  ListOrdersQuery,
+  PayOrderCommand,
+  PlaceOrderCommand,
+  ProductOrderDto,
+  ProductSearchOrderService,
+  ProductSearchOrderServicePorts,
+  ProductSearchResponseDto,
+  SearchProductsQuery,
+} from './product-search-order.js';

@@ -307,6 +307,23 @@ export function createInMemoryProductRepository(): ProductRepository {
         inventoryReservedUnits: input.inventoryReservedUnits ?? 0,
       };
       variantsStore.set(id, variant);
+
+      // Update the parent product's variants array
+      const parent = products.get(input.productId);
+      if (parent) {
+        const variantDomain = variantToDomain(variant);
+        const updated = {
+          ...parent,
+          variants: JSON.stringify([
+            ...JSON.parse(parent.variants),
+            variantDomain,
+          ]),
+          version: parent.version + 1,
+          updatedAt: now,
+        };
+        products.set(input.productId, updated);
+      }
+
       return variantToDomain(variant);
     },
     async suspend(

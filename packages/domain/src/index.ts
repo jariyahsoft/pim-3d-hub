@@ -143,7 +143,10 @@ export * from './moderation-dispute.js';
 export * from './notification.js';
 export * from './order.js';
 export * from './payment.js';
+export * from './product-order.js';
+export * from './product-search.js';
 export * from './product.js';
+
 export * from './pricing-profile.js';
 export * from './printer.js';
 export * from './proposal.js';
