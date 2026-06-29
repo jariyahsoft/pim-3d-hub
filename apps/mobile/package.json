@@ -3,14 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Placeholder until the Phase 2 mobile framework is selected",
+  "description": "React Native (Expo) mobile app for Phase 2",
   "dependencies": {
-    "@pim/config": "workspace:*"
+    "@pim/config": "workspace:*",
+    "@pim/contracts": "workspace:*",
+    "@pim/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "@pim/infrastructure": "workspace:*"
   },
   "scripts": {
     "build": "node ../../tools/run-workspace-task.mjs build",
     "dev": "node ../../tools/run-workspace-task.mjs dev",
-    "emulators": "node ../../tools/run-workspace-task.mjs emulators",
+    "typecheck": "tsc --noEmit",
     "test": "node ../../tools/run-workspace-task.mjs test",
     "test:contract": "node ../../tools/run-workspace-task.mjs test:contract",
     "test:integration": "node ../../tools/run-workspace-task.mjs test:integration"

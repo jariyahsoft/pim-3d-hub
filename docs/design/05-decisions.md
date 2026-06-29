@@ -8,19 +8,19 @@ Do not rewrite accepted history; supersede it with a new ADR.
 
 ## Decision matrix
 
-| Item | Area | Status | Decision | Follow-up |
-|---|---|---|---|---|
-| `T0001` | Project/repository name | Accepted | Public product name is **3D Print Marketplace Thailand**. Repository slug stays `pim-3d-hub`. Shared packages use the `@pim/*` scope. | Keep product-facing copy separate from repo/package identifiers. |
-| `T0002` | Web/PWA framework | Accepted | Use `Next.js` App Router with TypeScript/React for `apps/web` and `apps/admin`, consuming only the REST/OpenAPI contract for business data. | Add PWA install/offline/update behavior in the web app without introducing direct Firestore reads. |
-| `T0003` | Package manager/monorepo | Accepted | Use `pnpm` workspaces plus `turbo` for root task orchestration and caching. | Scaffold `apps/`, `services/`, and `packages/` around this layout. |
-| `T0004` | Schema/OpenAPI tooling | Accepted | Use `zod` at request/config boundaries, generate an OpenAPI 3.1 artifact under `packages/contracts/openapi`, lint with `@redocly/cli`, and generate TypeScript clients with `openapi-typescript` plus `openapi-fetch`. | Task 07 implements the concrete generation scripts and file layout. |
-| `T0005` | Test and E2E tooling | Accepted | Use `vitest` for unit/integration/contract coverage and `@playwright/test` for browser/PWA E2E smoke and critical flows. | Later tasks add Firebase Emulator, contract, and E2E layers on top of this baseline. |
-| `T0006` | Queue/event transport | Accepted | Keep `Transactional Outbox` as the business source of truth and use `QueuePort` with Google Cloud Tasks HTTP dispatch for Phase 1 async worker delivery. | Revisit only if measured fan-out or throughput exceeds the single-dispatch model. |
-| `T0007` | Payment/payout | Open | Vendor selection is deferred. The accepted constraint is `PaymentGatewayPort` plus a licensed Thailand-capable partner, signed webhooks, refunds, and no internal wallet or unlicensed balance holding. | Requires commercial, legal, settlement, and withholding confirmation before choosing a provider. |
-| `T0008` | Model parser/analyzer | Open | Phase 1 file scope is `STL`, `OBJ`, and `3MF`; exact browser viewer, parser, and analyzer libraries are deferred until Tasks 45–46 validate license, mobile performance, and sandbox behavior. | Keep manual quote fallback for unsupported or unsafe files. |
-| `T0009` | Search | Accepted | Phase 1 search uses Firestore-backed projection/read models behind `SearchPort`; external search remains optional and threshold-driven. | Reassess when Thai tokenization, geo ranking, or catalog scale exceeds the baseline. |
-| `T0010` | KYC/shipping | Accepted with open vendor follow-up | KYC starts with a manual-review workflow behind `KycPort`; shipping starts with a carrier-agnostic shipment model and manual carrier/tracking baseline behind `ShippingPort`. | Vendor selection remains open pending coverage, retention, and contract requirements. |
-| `T0011` | ADR updates | Accepted | ADR-012 through ADR-018 are updated below, and ADR-019 through ADR-023 record the newly accepted defaults. | Keep future changes additive via new ADRs. |
+| Item    | Area                     | Status                              | Decision                                                                                                                                                                                                               | Follow-up                                                                                          |
+| ------- | ------------------------ | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `T0001` | Project/repository name  | Accepted                            | Public product name is **3D Print Marketplace Thailand**. Repository slug stays `pim-3d-hub`. Shared packages use the `@pim/*` scope.                                                                                  | Keep product-facing copy separate from repo/package identifiers.                                   |
+| `T0002` | Web/PWA framework        | Accepted                            | Use `Next.js` App Router with TypeScript/React for `apps/web` and `apps/admin`, consuming only the REST/OpenAPI contract for business data.                                                                            | Add PWA install/offline/update behavior in the web app without introducing direct Firestore reads. |
+| `T0003` | Package manager/monorepo | Accepted                            | Use `pnpm` workspaces plus `turbo` for root task orchestration and caching.                                                                                                                                            | Scaffold `apps/`, `services/`, and `packages/` around this layout.                                 |
+| `T0004` | Schema/OpenAPI tooling   | Accepted                            | Use `zod` at request/config boundaries, generate an OpenAPI 3.1 artifact under `packages/contracts/openapi`, lint with `@redocly/cli`, and generate TypeScript clients with `openapi-typescript` plus `openapi-fetch`. | Task 07 implements the concrete generation scripts and file layout.                                |
+| `T0005` | Test and E2E tooling     | Accepted                            | Use `vitest` for unit/integration/contract coverage and `@playwright/test` for browser/PWA E2E smoke and critical flows.                                                                                               | Later tasks add Firebase Emulator, contract, and E2E layers on top of this baseline.               |
+| `T0006` | Queue/event transport    | Accepted                            | Keep `Transactional Outbox` as the business source of truth and use `QueuePort` with Google Cloud Tasks HTTP dispatch for Phase 1 async worker delivery.                                                               | Revisit only if measured fan-out or throughput exceeds the single-dispatch model.                  |
+| `T0007` | Payment/payout           | Open                                | Vendor selection is deferred. The accepted constraint is `PaymentGatewayPort` plus a licensed Thailand-capable partner, signed webhooks, refunds, and no internal wallet or unlicensed balance holding.                | Requires commercial, legal, settlement, and withholding confirmation before choosing a provider.   |
+| `T0008` | Model parser/analyzer    | Open                                | Phase 1 file scope is `STL`, `OBJ`, and `3MF`; exact browser viewer, parser, and analyzer libraries are deferred until Tasks 45–46 validate license, mobile performance, and sandbox behavior.                         | Keep manual quote fallback for unsupported or unsafe files.                                        |
+| `T0009` | Search                   | Accepted                            | Phase 1 search uses Firestore-backed projection/read models behind `SearchPort`; external search remains optional and threshold-driven.                                                                                | Reassess when Thai tokenization, geo ranking, or catalog scale exceeds the baseline.               |
+| `T0010` | KYC/shipping             | Accepted with open vendor follow-up | KYC starts with a manual-review workflow behind `KycPort`; shipping starts with a carrier-agnostic shipment model and manual carrier/tracking baseline behind `ShippingPort`.                                          | Vendor selection remains open pending coverage, retention, and contract requirements.              |
+| `T0011` | ADR updates              | Accepted                            | ADR-012 through ADR-018 are updated below, and ADR-019 through ADR-023 record the newly accepted defaults.                                                                                                             | Keep future changes additive via new ADRs.                                                         |
 
 ## ADR-001: Two delivery phases
 
@@ -180,7 +180,7 @@ Prototype 3D viewer, large upload, SSR auth, and service-worker update behavior 
 
 ## ADR-014: Mobile framework
 
-**Status:** Open  
+**Status:** Superseded by ADR-024  
 **Date:** 2026-06-27
 
 Options:
@@ -443,8 +443,12 @@ Reason: operational complexity without evidence.
 **Supersedes:** ADR-XXX
 
 ### Context
+
 ### Decision
+
 ### Alternatives considered
+
 ### Consequences
+
 ### Follow-up
 ```
