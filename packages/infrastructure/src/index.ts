@@ -7,6 +7,7 @@ export * from './in-memory-file-retention-and-scan-repositories.js';
 export * from './in-memory-file-upload-session-repository.js';
 export * from './in-memory-model-analysis-repositories.js';
 export * from './in-memory-pricing-profile-repository.js';
+export * from './in-memory-instant-quote-repository.js';
 export * from './in-memory-moderation-dispute-repositories.js';
 export * from './in-memory-user-repositories.js';
 export * from './in-memory-notification-repositories.js';

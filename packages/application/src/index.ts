@@ -261,6 +261,24 @@ export {
   InstantQuoteIneligibleError,
   InstantQuoteProfileNotFoundError,
 } from './instant-quote.js';
+export {
+  createInstantQuoteSnapshotService,
+  assertInstantQuoteVersionConflict,
+  InstantQuoteCapacityUnavailableError,
+  InstantQuoteExpiredError,
+  InstantQuoteNotFoundError,
+  InstantQuoteVersionConflictError,
+} from './instant-quote-snapshot.js';
+export type {
+  ConsumeQuoteForOrderCommand,
+  CreateInstantQuoteCommand,
+  ExpireInstantQuoteCommand,
+  InstantQuoteDto,
+  InstantQuoteSnapshotService,
+  InstantQuoteSnapshotServicePorts,
+  ListQuotesQuery,
+  ReserveInstantQuoteCommand,
+} from './instant-quote-snapshot.js';
 export type {
   CheckInstantQuoteEligibilityCommand,
   CalculateQuoteCommand,
