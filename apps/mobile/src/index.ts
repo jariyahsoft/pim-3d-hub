@@ -85,3 +85,41 @@ export type {
   OfflineDraftStoragePort,
   SyncResult,
 } from './offline-drafts.js';
+
+export {
+  createSellerWorkspaceService,
+  SellerActionError,
+} from './seller-workspace.js';
+export type {
+  ActionConfirmation,
+  EarningsSummary,
+  ProductionUpdateInput,
+  SellerOrderItem,
+  SellerWorkspaceService,
+  SellerWorkspacePorts,
+  ServiceOrPrinterItem,
+  ShipmentCreateInput,
+} from './seller-workspace.js';
+
+export { runMobileQualityChecklist } from './mobile-quality-checklist.js';
+export type {
+  QualityCheckResult,
+  QualityReport,
+  QualityReportConfig,
+} from './mobile-quality-checklist.js';
+
+export {
+  getEnvironmentTarget,
+  getBuildConfig,
+  PRIVACY_DISCLOSURES,
+  PERMISSION_RATIONALES,
+  ROLLBACK_PROCEDURE,
+  MOBILE_APP_VERSION,
+  MOBILE_BUILD_NUMBER,
+} from './store-deployment.js';
+export type {
+  BuildConfig,
+  EnvironmentTarget,
+  PrivacyDisclosure,
+  ReleaseTrack,
+} from './store-deployment.js';
